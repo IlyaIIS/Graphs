@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31702.278
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphsMG", "GraphsMG\GraphsMG.csproj", "{CC47E1F6-6658-4814-AAD1-9D647C191A65}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphsLogic", "GraphsLogic\GraphsLogic.csproj", "{55A3A10D-FAF2-46C1-8AAB-F96B8FC6DC04}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CC47E1F6-6658-4814-AAD1-9D647C191A65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC47E1F6-6658-4814-AAD1-9D647C191A65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC47E1F6-6658-4814-AAD1-9D647C191A65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC47E1F6-6658-4814-AAD1-9D647C191A65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55A3A10D-FAF2-46C1-8AAB-F96B8FC6DC04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55A3A10D-FAF2-46C1-8AAB-F96B8FC6DC04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55A3A10D-FAF2-46C1-8AAB-F96B8FC6DC04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55A3A10D-FAF2-46C1-8AAB-F96B8FC6DC04}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BA0788FA-6713-4806-8E8F-BBCDC4987AD5}
+	EndGlobalSection
+EndGlobal
