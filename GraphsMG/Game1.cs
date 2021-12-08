@@ -39,6 +39,7 @@ namespace GraphsMG
 
             Printer.NodeSp = Content.Load<Texture2D>("Circle");
             Printer.LineSp = Content.Load<Texture2D>("Point");
+            Printer.ArrowSp = Content.Load<Texture2D>("Arrow");
 
             Printer.Font = Content.Load<SpriteFont>("defaultFont");
             // TODO: use this.Content to load your game content here

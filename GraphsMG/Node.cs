@@ -14,12 +14,14 @@ namespace GraphsMG
         public double Value { get { return Origin.Value; } set { Origin.Value = Value; } }
         public List<Line> Lines { get; } = new List<Line>();
         public bool IsUnderUpdating { get; set; }
+        public float Size { get; set; }
 
-        public Node(GraphsLogic.Node node, Point positon)
+        public Node(GraphsLogic.Node node, Point positon, float size)
         {
             Position = positon;
             Origin = node;
             Color = Color.White;
+            Size = size;
         }
 
         public void EndOfReplacing()
