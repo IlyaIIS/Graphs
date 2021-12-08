@@ -29,7 +29,7 @@ namespace GraphsMG
         {
             // TODO: Add your initialization logic here
             Graph = new Graph();
-
+            Menu.Buttons.
             base.Initialize();
         }
 
@@ -62,7 +62,7 @@ namespace GraphsMG
             _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Camera.get_transformation(GraphicsDevice));
 
             Printer.DrawGraph(_spriteBatch, Graph);
-
+            Printer.DrawMenu();
             _spriteBatch.End();
 
 

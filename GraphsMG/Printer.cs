@@ -13,6 +13,7 @@ namespace GraphsMG
         static public Texture2D NodeSp { get; set; }
         static public Texture2D LineSp { get; set; }
 
+
         static public SpriteFont Font { get; set; }
 
         static public void DrawGraph(SpriteBatch spriteBatch, Graph graph)
@@ -68,6 +69,19 @@ namespace GraphsMG
             }
         }
 
+        static public void DrawMenu()
+        {
+            foreach (var button in Menu.Buttons)
+            {
+                SpriteBatch.Draw(button.Sprites[button.State],
+                                new Vector2(button.Position.X , button.Position.Y ), null,
+                                Color.White, 0,
+                                new Vector2(0, 0),
+                                new Vector2(button.Size / button.Sprites[button.State].Width, button.Size / button.Sprites[button.State].Height),
+                                SpriteEffects.None, 0);
+            }
+        }
+
         static public void DrawTechInf(Graph graph)
         {
             MouseState mouse = Mouse.GetState();
@@ -76,6 +90,7 @@ namespace GraphsMG
             //SpriteBatch.DrawString(Font2, tile.Altitude.ToString(), new Vector2((float)tile.X, (float)(tile.Y)), Color.Black);
             //SpriteBatch.DrawString(Font, mouse.X + " " + mouse.Y, new Vector2(mouse.X, mouse.Y - 20), Color.Black);
             //SpriteBatch.DrawString(Font2, Controller.Cam._pos.X + " " + Controller.Cam._pos.Y, new Vector2(mouse.X, mouse.Y - 20), Color.Black);
+            
         }
     }
 }
