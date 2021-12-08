@@ -16,7 +16,7 @@ namespace GraphsMG
 
         public Line(Node from, Node to, double value = 1)
         {
-            Length = (float)Controller.GetPointDistance(from.Position, to.Position);
+            Length = (float)Controller.GetPointDistance(from.Position, to.Position) - (to.Size + 6) / 2;
             Angle = Controller.GetPointDirection(from.Position, to.Position);
             From = from;
             To = to;
@@ -24,7 +24,7 @@ namespace GraphsMG
         }
         public void Update()
         {
-            Length = (float)Controller.GetPointDistance(From.Position, To.Position);
+            Length = (float)Controller.GetPointDistance(From.Position, To.Position) - (To.Size + 6) / 2;
             Angle = Controller.GetPointDirection(From.Position, To.Position);
         }
     }

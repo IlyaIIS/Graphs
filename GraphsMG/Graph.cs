@@ -21,7 +21,7 @@ namespace GraphsMG
         {
             GraphsLogic.Node newNode = new GraphsLogic.Node(value);
             origin.Nodes.Add(newNode);
-            Nodes.Add(new Node(newNode, position));
+            Nodes.Add(new Node(newNode, position, NodeSize));
         }
 
         public void AddLink(Node firstNode, Node secondNode, double value = 0)

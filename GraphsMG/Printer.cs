@@ -12,6 +12,7 @@ namespace GraphsMG
         static public SpriteBatch SpriteBatch { get; set; }
         static public Texture2D NodeSp { get; set; }
         static public Texture2D LineSp { get; set; }
+        static public Texture2D ArrowSp { get; set; }
 
         static public SpriteFont Font { get; set; }
 
@@ -20,6 +21,7 @@ namespace GraphsMG
             SpriteBatch = spriteBatch;
             DrawEdges(graph);
             DrawNodes(graph);
+            DrawArrows(graph);
         }
 
         static void DrawNodes(Graph graph)
@@ -63,6 +65,23 @@ namespace GraphsMG
                                         node.Color, line.Angle,
                                         new Vector2(0, 0),
                                         new Vector2(line.Length, 1),
+                                        SpriteEffects.None, 0);
+                }
+            }
+        }
+
+        static void DrawArrows(Graph graph)
+        {
+            foreach (Node node in graph.Nodes)
+            {
+                foreach (Line line in node.Lines)
+                {
+                    if (!node.IsUnderUpdating)
+                        SpriteBatch.Draw(ArrowSp,
+                                        new Vector2(node.Position.X + (float)Math.Cos(line.Angle) * line.Length, node.Position.Y + (float)Math.Sin(line.Angle) * line.Length), null,
+                                        node.Color, line.Angle,
+                                        new Vector2(0, 15.5f),
+                                        new Vector2(6f / ArrowSp.Width, 6f / ArrowSp.Height),
                                         SpriteEffects.None, 0);
                 }
             }
