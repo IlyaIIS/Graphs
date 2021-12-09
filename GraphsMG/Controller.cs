@@ -35,60 +35,157 @@ namespace GraphsMG
         }
         static void CheckMouseActions(Graph graph)
         {
-            if (mouseState.LeftButton == ButtonState.Pressed)
-            {
-                wasLeftPressed = true;
-                if (PickedNode == null)
-                {
-                    Node node = GetNodeUnderMouse(graph);
+            Button button = Menu.GetButtonUnderPoint(mouseState.Position);
 
-                    if (node != null)
+            if (button == null)
+            {
+                if (Menu.Buttons[ButtonType.Removing].IsActive == false)
+                {
+                    LeftMouseNodeAddActions();
+                    RightMouseLineAddActions();
+                }
+                else
+                {
+                    LeftMouseNodeRemovingActions();
+                    RightMouseLineRemovingActions();
+                }
+            }
+            else
+            {
+                LeftMouseButtonClickActions();
+            }
+
+            void LeftMouseNodeAddActions()
+            {
+                if (mouseState.LeftButton == ButtonState.Pressed)
+                {
+                    wasLeftPressed = true;
+
+                    if (PickedNode == null)
                     {
-                        PickedNode = node;
-                        PickedNode.IsUnderUpdating = true;
-                        foreach (Line line in PickedNode.Lines)
-                            line.To.IsUnderUpdating = true;
+                        Node node = GetNodeUnderMouse(graph);
+
+                        if (node != null)
+                        {
+                            PickedNode = node;
+                            PickedNode.IsUnderUpdating = true;
+                            foreach (Line line in PickedNode.Lines)
+                                line.To.IsUnderUpdating = true;
+                        }
+                    }
+                    else
+                    {
+                        PickedNode.Position = GetMousePosition();
                     }
                 }
-                else
+                else if (wasLeftPressed && mouseState.LeftButton == ButtonState.Released)
                 {
-                    PickedNode.Position = GetMousePosition();
+                    wasLeftPressed = false;
+
+                    if (PickedNode == null)
+                        graph.AddNode(GetMousePosition());
+                    else
+                        PickedNode.EndOfReplacing();
+
+                    PickedNode = null;
                 }
             }
-            if (wasLeftPressed && mouseState.LeftButton == ButtonState.Released)
+            void RightMouseLineAddActions()
             {
-                wasLeftPressed = false;
-                PickedNode = null;
-                Node node = GetNodeUnderMouse(graph);
-
-                if (node == null)
-                    graph.AddNode(GetMousePosition());
-                else
-                    node.EndOfReplacing();
-            }
-
-            if (mouseState.RightButton == ButtonState.Pressed)
-            {
-                wasRightPressed = true;
-
-                if (PickedNode == null)
+                if (mouseState.RightButton == ButtonState.Pressed)
                 {
+                    wasRightPressed = true;
+
+                    if (PickedNode == null)
+                    {
+                        Node node = GetNodeUnderMouse(graph);
+
+                        if (node != null)
+                            PickedNode = node;
+                    }
+                }
+                else if (wasRightPressed && mouseState.RightButton == ButtonState.Released)
+                {
+                    wasRightPressed = false;
+
                     Node node = GetNodeUnderMouse(graph);
 
-                    if (node != null)
-                        PickedNode = node;
+                    if (PickedNode != null && node != null && PickedNode != node)
+                    {
+                        graph.AddLink(PickedNode, node, Menu.Buttons[ButtonType.LineType].IsActive);
+                    }
+
+                    PickedNode = null;
                 }
             }
-            if (wasRightPressed && mouseState.RightButton == ButtonState.Released)
+
+            void LeftMouseNodeRemovingActions()
             {
-                wasRightPressed = false;
+                if (mouseState.LeftButton == ButtonState.Pressed)
+                {
+                    wasLeftPressed = true;
 
-                Node node = GetNodeUnderMouse(graph);
+                    if (PickedNode == null)
+                    {
+                        Node node = GetNodeUnderMouse(graph);
 
-                if (node != null)
-                    graph.AddLink(PickedNode, node);
+                        if (node != null)
+                            PickedNode = node;
+                    }
+                }
+                else if (wasLeftPressed && mouseState.LeftButton == ButtonState.Released)
+                {
+                    wasLeftPressed = false;
 
-                PickedNode = null;
+                    Node node = GetNodeUnderMouse(graph);
+
+                    if (PickedNode != null && node != null)
+                        if (PickedNode == node)
+                            graph.RemoveNode(node);
+
+                    PickedNode = null;
+                }
+            }
+            void RightMouseLineRemovingActions()
+            {
+                if (mouseState.RightButton == ButtonState.Pressed)
+                {
+                    wasRightPressed = true;
+
+                    if (PickedNode == null)
+                    {
+                        Node node = GetNodeUnderMouse(graph);
+
+                        if (node != null)
+                            PickedNode = node;
+                    }
+                }
+                else if (wasRightPressed && mouseState.RightButton == ButtonState.Released)
+                {
+                    wasRightPressed = false;
+
+                    Node node = GetNodeUnderMouse(graph);
+
+                    if (PickedNode != null && node != null)
+                        if (PickedNode != node)
+                            graph.RemoveLine(PickedNode, node, Menu.Buttons[ButtonType.LineType].IsActive);
+
+                    PickedNode = null;
+                }
+            }
+
+            void LeftMouseButtonClickActions()
+            {
+                if (mouseState.LeftButton == ButtonState.Pressed)
+                {
+                    wasLeftPressed = true;
+                }
+                else if (wasLeftPressed && mouseState.LeftButton == ButtonState.Released)
+                {
+                    wasLeftPressed = false;
+
+                    button.TryClick(mouseState.Position);
+                }
             }
         }
 
@@ -145,7 +242,7 @@ namespace GraphsMG
         {
             foreach(Node node in graph.Nodes)
             {
-                if (GetPointDistance(GetMousePosition(), node.Position) <= graph.NodeSize)
+                if (GetPointDistance(GetMousePosition(), node.Position) <= graph.NodeSize / 2)
                 {
                     return node;
                 }

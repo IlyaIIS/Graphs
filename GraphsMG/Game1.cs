@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace GraphsMG
 {
@@ -29,7 +30,6 @@ namespace GraphsMG
         {
             // TODO: Add your initialization logic here
             Graph = new Graph();
-            Menu.Buttons.
             base.Initialize();
         }
 
@@ -41,8 +41,13 @@ namespace GraphsMG
             Printer.LineSp = Content.Load<Texture2D>("Point");
             Printer.ArrowSp = Content.Load<Texture2D>("Arrow");
 
+            Menu.Initialize(new Dictionary<ButtonType, Texture2D[]> {
+                { ButtonType.LineType, new Texture2D[2] { Content.Load<Texture2D>("ButtonLink1"), Content.Load<Texture2D>("ButtonLink2") } },
+                { ButtonType.Removing, new Texture2D[2] { Content.Load<Texture2D>("ButtonRemove1"), Content.Load<Texture2D>("ButtonRemove2") } }
+            });
+
             Printer.Font = Content.Load<SpriteFont>("defaultFont");
-            // TODO: use this.Content to load your game content here
+            
         }
 
         protected override void Update(GameTime gameTime)
@@ -63,15 +68,17 @@ namespace GraphsMG
             _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Camera.get_transformation(GraphicsDevice));
 
             Printer.DrawGraph(_spriteBatch, Graph);
-            Printer.DrawMenu();
+            
             _spriteBatch.End();
 
 
             _spriteBatch.Begin();
 
             Printer.DrawTechInf(Graph);
+            Printer.DrawMenu();
 
             _spriteBatch.End();
+            
 
             base.Draw(gameTime);
         }
