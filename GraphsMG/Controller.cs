@@ -58,6 +58,11 @@ namespace GraphsMG
             if (wasLeftPressed && mouseState.LeftButton == ButtonState.Released)
             {
                 wasLeftPressed = false;
+
+                foreach (var item in Menu.Buttons)
+                    if (item.Value.TryClick(mouseState.Position))
+                        return;
+
                 PickedNode = null;
                 Node node = GetNodeUnderMouse(graph);
 
@@ -85,8 +90,10 @@ namespace GraphsMG
 
                 Node node = GetNodeUnderMouse(graph);
 
-                if (node != null)
-                    graph.AddLink(PickedNode, node);
+                if (PickedNode != null && node != null && PickedNode != node)
+                {
+                    graph.AddLink(PickedNode, node, Menu.Buttons[ButtonType.LineType].IsActive);
+                }
 
                 PickedNode = null;
             }

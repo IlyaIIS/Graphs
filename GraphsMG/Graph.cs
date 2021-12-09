@@ -24,11 +24,12 @@ namespace GraphsMG
             Nodes.Add(new Node(newNode, position, NodeSize));
         }
 
-        public void AddLink(Node firstNode, Node secondNode, double value = 0)
+        public void AddLink(Node firstNode, Node secondNode, bool isBiderectional, double value = 0)
         {
             origin.AddLink(firstNode.Origin, secondNode.Origin, value);
             firstNode.Lines.Add(new Line(firstNode, secondNode, value));
-            secondNode.Lines.Add(new Line(secondNode, firstNode, value));
+            if (isBiderectional)
+                secondNode.Lines.Add(new Line(secondNode, firstNode, value));
         }
     }
 }

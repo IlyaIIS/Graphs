@@ -30,9 +30,9 @@ namespace GraphsMG
             foreach (Node node in graph.Nodes)
             {
                 SpriteBatch.Draw(NodeSp,
-                                new Vector2(node.Position.X - graph.NodeSize/2, node.Position.Y - graph.NodeSize/2), null,
+                                new Vector2(node.Position.X - graph.NodeSize / 2, node.Position.Y - graph.NodeSize / 2), null,
                                 node.Color, 0,
-                                new Vector2(0,0),
+                                new Vector2(0, 0),
                                 new Vector2(graph.NodeSize / NodeSp.Width, graph.NodeSize / NodeSp.Height),
                                 SpriteEffects.None, 0);
             }
@@ -70,19 +70,6 @@ namespace GraphsMG
                 }
             }
         }
-
-<<<<<<< HEAD
-        static public void DrawMenu()
-        {
-            foreach (var button in Menu.Buttons)
-            {
-                SpriteBatch.Draw(button.Sprites[button.State],
-                                new Vector2(button.Position.X , button.Position.Y ), null,
-                                Color.White, 0,
-                                new Vector2(0, 0),
-                                new Vector2(button.Size / button.Sprites[button.State].Width, button.Size / button.Sprites[button.State].Height),
-                                SpriteEffects.None, 0);
-=======
         static void DrawArrows(Graph graph)
         {
             foreach (Node node in graph.Nodes)
@@ -97,7 +84,23 @@ namespace GraphsMG
                                         new Vector2(6f / ArrowSp.Width, 6f / ArrowSp.Height),
                                         SpriteEffects.None, 0);
                 }
->>>>>>> master
+            }
+        }
+
+        static public void DrawMenu()
+        {
+            foreach (var item in Menu.Buttons)
+            {
+                Button button = item.Value;
+                Texture2D texture = button.Sprites[button.IsActive ? 1 : 0];
+                SpriteBatch.Draw(texture,
+                                new Vector2(button.Position.X, button.Position.Y), null,
+                                Color.White, 0,
+                                new Vector2(0, 0),
+                                new Vector2(button.Size / texture.Width, button.Size / texture.Height),
+                                SpriteEffects.None, 0);
+
+
             }
         }
 
@@ -109,7 +112,9 @@ namespace GraphsMG
             //SpriteBatch.DrawString(Font2, tile.Altitude.ToString(), new Vector2((float)tile.X, (float)(tile.Y)), Color.Black);
             //SpriteBatch.DrawString(Font, mouse.X + " " + mouse.Y, new Vector2(mouse.X, mouse.Y - 20), Color.Black);
             //SpriteBatch.DrawString(Font2, Controller.Cam._pos.X + " " + Controller.Cam._pos.Y, new Vector2(mouse.X, mouse.Y - 20), Color.Black);
-            
+
         }
     }
 }
+    
+
