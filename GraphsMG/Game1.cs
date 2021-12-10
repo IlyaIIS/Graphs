@@ -41,9 +41,11 @@ namespace GraphsMG
             Printer.LineSp = Content.Load<Texture2D>("Point");
             Printer.ArrowSp = Content.Load<Texture2D>("Arrow");
 
-            Menu.Initialize(new Dictionary<ButtonType, Texture2D[]> {
+            Menu.Initialize(Graph, new Dictionary<ButtonType , Texture2D[]> {
                 { ButtonType.LineType, new Texture2D[2] { Content.Load<Texture2D>("ButtonLink1"), Content.Load<Texture2D>("ButtonLink2") } },
-                { ButtonType.Removing, new Texture2D[2] { Content.Load<Texture2D>("ButtonRemove1"), Content.Load<Texture2D>("ButtonRemove2") } }
+                { ButtonType.Removing, new Texture2D[2] { Content.Load<Texture2D>("ButtonRemove1"), Content.Load<Texture2D>("ButtonRemove2") } },
+                { ButtonType.Saving, new Texture2D[2] { Content.Load<Texture2D>("ButtonSave"), Content.Load<Texture2D>("ButtonSave") } },
+                { ButtonType.Loading, new Texture2D[2] { Content.Load<Texture2D>("ButtonLoad"), Content.Load<Texture2D>("ButtonLoad") } }
             });
 
             Printer.Font = Content.Load<SpriteFont>("defaultFont");

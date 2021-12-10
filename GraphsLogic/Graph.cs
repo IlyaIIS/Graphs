@@ -16,7 +16,7 @@ namespace GraphsLogic
         {
             Nodes.Add(node);
         }
-        public void AddLink(Node first, Node second, double value = 0, LinkType type = LinkType.Bidirectional)
+        public void AddLink(Node first, Node second, double value = 1, LinkType type = LinkType.Bidirectional)
         {
             first.Links.Add(new Link(second, value));
             if (type == LinkType.Bidirectional)

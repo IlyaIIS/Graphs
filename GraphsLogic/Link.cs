@@ -9,7 +9,7 @@ namespace GraphsLogic
         public Node Node { get; set; }
         public double Value { get; set; } 
 
-        public Link(Node node, double value = 0)
+        public Link(Node node, double value = 1)
         {
             Node = node;
             Value = value;

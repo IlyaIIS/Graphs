@@ -68,9 +68,21 @@ namespace GraphsMG
                         if (node != null)
                         {
                             PickedNode = node;
+
                             PickedNode.IsUnderUpdating = true;
                             foreach (Line line in PickedNode.Lines)
                                 line.To.IsUnderUpdating = true;
+                            foreach(Node subNode in graph.Nodes)
+                            {
+                                foreach(Line line in subNode.Lines)
+                                {
+                                    if (line.To == node)
+                                    {
+                                        subNode.IsUnderUpdating = true;
+                                        break;
+                                    }    
+                                }
+                            }
                         }
                     }
                     else
@@ -85,7 +97,8 @@ namespace GraphsMG
                     if (PickedNode == null)
                         graph.AddNode(GetMousePosition());
                     else
-                        PickedNode.EndOfReplacing();
+                        foreach (Node node in graph.Nodes)
+                            node.IsUnderUpdating = false;
 
                     PickedNode = null;
                 }
@@ -112,7 +125,18 @@ namespace GraphsMG
 
                     if (PickedNode != null && node != null && PickedNode != node)
                     {
-                        graph.AddLink(PickedNode, node, Menu.Buttons[ButtonType.LineType].IsActive);
+                        bool lineAlreadyExists = false;
+                        foreach(Line line in node.Lines)
+                        {
+                            if (line.To == PickedNode)
+                            {
+                                lineAlreadyExists = true;
+                                break;
+                            }
+                        }
+
+                        if (!lineAlreadyExists)
+                            graph.AddLink(PickedNode, node, Menu.Buttons[ButtonType.LineType].IsActive);
                     }
 
                     PickedNode = null;

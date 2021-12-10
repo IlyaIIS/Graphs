@@ -7,11 +7,10 @@ namespace GraphsLogic
     public class Node
     {
         public List<Link> Links { get; } = new List<Link>();
-        public double Value { get; set; }
-
-        public Node(double value = 0)
+        public int Id { get; }
+        public Node(int id)
         {
-            Value = value;
+            Id = id;
         }
     }
 }
