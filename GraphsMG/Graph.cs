@@ -18,7 +18,7 @@ namespace GraphsMG
             origin = new GraphsLogic.Graph();
         }
 
-        public void AddNode(Point position)
+        public void AddNode(Vector2 position)
         {
             GraphsLogic.Node newNode = new GraphsLogic.Node(origin.Nodes.Count);
             origin.AddNode(newNode);
@@ -85,7 +85,7 @@ namespace GraphsMG
             for (int i = 0; i < origin.Nodes.Count; i++)
             {
                 GraphsLogic.Node originNode = origin.Nodes[i];
-                Nodes.Add(new Node(originNode, new Point((int)(NodeSize * 3 * (i % lineLenght) + rnd.Next((int)NodeSize*2)-NodeSize), (int)(NodeSize * 3 * (i / lineLenght) + rnd.Next((int)NodeSize*2) - NodeSize)), NodeSize));
+                Nodes.Add(new Node(originNode, new Vector2((float)(NodeSize * 3 * (i % lineLenght) + rnd.Next((int)NodeSize*2)-NodeSize), (float)(NodeSize * 3 * (i / lineLenght) + rnd.Next((int)NodeSize*2) - NodeSize)), NodeSize));
             }
 
             for (int i = 0; i < origin.Nodes.Count; i++)
@@ -113,6 +113,55 @@ namespace GraphsMG
             }
 
             return output;
+        }
+
+        public void SpreadNodes()
+        {
+            double speed = 1;
+
+            foreach(Node node in Nodes)
+            {
+                foreach (Line line in node.Lines)
+                {
+                    Node subNode = line.To;
+
+                    double distance = Controller.GetPointDistance(node.Position, subNode.Position);
+                    if (distance > NodeSize * 3)
+                    {
+                        double mode = 0.1;//30 * (distance - NodeSize * 5) / (distance * distance);
+                        float angle = Controller.GetPointDirection(node.Position, subNode.Position);
+
+                        node.Position += new Vector2((float)(Math.Cos(angle) * speed * mode), (float)(Math.Sin(angle) * speed * mode));
+                    }
+                }
+
+                foreach (Node subNode in Nodes)
+                {
+                    if (subNode != node)
+                    {
+                        double distance = Controller.GetPointDistance(node.Position, subNode.Position);
+                        double mode = 30*(distance - NodeSize * 5) / (distance*distance);
+                        float angle = Controller.GetPointDirection(node.Position, subNode.Position);
+
+                        node.Position += new Vector2((float)(Math.Cos(angle)*speed * mode), (float)(Math.Sin(angle) * speed * mode));
+                    }
+                }
+            }
+        }
+
+        public Vector2 GetGraphCenter()
+        {
+            Vector2 center = new Vector2();
+            if (Nodes.Count > 0)
+            {
+                foreach (Node node in Nodes)
+                {
+                    center += node.Position;
+                }
+
+                center /= Nodes.Count;
+            }
+            return center;
         }
     }
 }

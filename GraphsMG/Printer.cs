@@ -55,7 +55,7 @@ namespace GraphsMG
             {
                 foreach (Line line in node.Lines)
                 {
-                    if (node.IsUnderUpdating)
+                    if (node.IsUnderUpdating || Menu.Buttons[ButtonType.Spreading].IsActive)
                         line.Update();
 
                     SpriteBatch.Draw(LineSp,

@@ -21,6 +21,7 @@ namespace GraphsMG
             Buttons.Add(ButtonType.Removing, new Button(new Point(0, size), size, textures[ButtonType.Removing], () => { }));
             Buttons.Add(ButtonType.Saving, new Button(new Point(0, 2*size), size, textures[ButtonType.Saving], () => { graph.Save(path); }));
             Buttons.Add(ButtonType.Loading, new Button(new Point(0, 3*size), size, textures[ButtonType.Loading], () => { graph.Load(path); }));
+            Buttons.Add(ButtonType.Spreading, new Button(new Point(0, 4 * size), size, textures[ButtonType.Spreading], () => { }, true));
         }
 
         static public Button GetButtonUnderPoint(Point pos)
@@ -40,6 +41,7 @@ namespace GraphsMG
         ShowingLineValues,
         ShowingNodeNames,
         Saving,
-        Loading
+        Loading,
+        Spreading
     }
 }

@@ -45,7 +45,8 @@ namespace GraphsMG
                 { ButtonType.LineType, new Texture2D[2] { Content.Load<Texture2D>("ButtonLink1"), Content.Load<Texture2D>("ButtonLink2") } },
                 { ButtonType.Removing, new Texture2D[2] { Content.Load<Texture2D>("ButtonRemove1"), Content.Load<Texture2D>("ButtonRemove2") } },
                 { ButtonType.Saving, new Texture2D[2] { Content.Load<Texture2D>("ButtonSave"), Content.Load<Texture2D>("ButtonSave") } },
-                { ButtonType.Loading, new Texture2D[2] { Content.Load<Texture2D>("ButtonLoad"), Content.Load<Texture2D>("ButtonLoad") } }
+                { ButtonType.Loading, new Texture2D[2] { Content.Load<Texture2D>("ButtonLoad"), Content.Load<Texture2D>("ButtonLoad") } },
+                { ButtonType.Spreading, new Texture2D[2] { Content.Load<Texture2D>("ButtonSpread1"), Content.Load<Texture2D>("ButtonSpread2") } }
             });
 
             Printer.Font = Content.Load<SpriteFont>("defaultFont");
@@ -59,6 +60,13 @@ namespace GraphsMG
 
             if (IsActive)
                 Controller.CheckKeyActions(Graph);
+
+            if (Menu.Buttons[ButtonType.Spreading].IsActive)
+            {
+                Graph.SpreadNodes();
+                Vector2 center = Graph.GetGraphCenter();
+                Camera.Move((center - Camera.Pos) / 100);
+            }
 
             base.Update(gameTime);
         }
