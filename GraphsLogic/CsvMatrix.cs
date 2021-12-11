@@ -54,7 +54,7 @@ namespace GraphsLogic
             double[,] matrix = GetMatrix(path);
             Graph graph = new Graph();
             for(int i = 0; i < Math.Sqrt(matrix.Length); i++)
-                graph.Nodes.Add(new Node());
+                graph.Nodes.Add(new Node(i));
             for(int i = 0; i < Math.Sqrt(matrix.Length); i++)
             {
                 for (int j = 0; j < Math.Sqrt(matrix.Length); j++)
@@ -70,20 +70,30 @@ namespace GraphsLogic
         public static void SaveGraph(Graph graph, string path)
         {
             double[,] matrix = new double[graph.Nodes.Count, graph.Nodes.Count];
-            for (int i = 0; i < Math.Sqrt(matrix.Length); i++)
+            /*for (int i = 0; i < Math.Sqrt(matrix.Length); i++)
             {
                 for (int j = 0; j < Math.Sqrt(matrix.Length); j++)
                 {
                     matrix[i, j] = 0;
                 }
-            }
-            for( int i = 0; i < graph.Nodes.Count; i++)
+            }*/
+            /*for( int i = 0; i < graph.Nodes.Count; i++)
             {
                 for (int j = 0; j < graph.Nodes[i].Links.Count; j++)
                 {
                     matrix[i, j] = graph.Nodes[i].Links[j].Value;
                 }
+            }*/
+            
+            foreach(Node node in graph.Nodes)
+            {
+                foreach(Link link in node.Links)
+                {
+                    matrix[link.Node.Id, node.Id] = link.Value;
+                }
             }
-        }    
+
+            WriteMatrix(path, matrix);
+        }  
     }
 }

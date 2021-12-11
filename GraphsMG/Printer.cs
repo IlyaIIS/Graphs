@@ -35,6 +35,8 @@ namespace GraphsMG
                                 new Vector2(0, 0),
                                 new Vector2(graph.NodeSize / NodeSp.Width, graph.NodeSize / NodeSp.Height),
                                 SpriteEffects.None, 0);
+
+                SpriteBatch.DrawString(Font, node.Origin.Id.ToString(), new Vector2(node.Position.X, node.Position.Y), Color.Black);
             }
 
             //инфа от тайла под курсором
@@ -53,20 +55,15 @@ namespace GraphsMG
             {
                 foreach (Line line in node.Lines)
                 {
-                    if (node.IsUnderUpdating)
-                        SpriteBatch.Draw(LineSp,
+                    if (node.IsUnderUpdating || Menu.Buttons[ButtonType.Spreading].IsActive)
+                        line.Update();
+
+                    SpriteBatch.Draw(LineSp,
                                     new Vector2(node.Position.X, node.Position.Y), null,
-                                    node.Color, Controller.GetPointDirection(line.From.Position, line.To.Position),
+                                    node.Color, line.Angle,
                                     new Vector2(0, 0),
-                                    new Vector2((float)Controller.GetPointDistance(line.From.Position, line.To.Position), 1),
+                                    new Vector2(line.Length, 1),
                                     SpriteEffects.None, 0);
-                    else
-                        SpriteBatch.Draw(LineSp,
-                                        new Vector2(node.Position.X, node.Position.Y), null,
-                                        node.Color, line.Angle,
-                                        new Vector2(0, 0),
-                                        new Vector2(line.Length, 1),
-                                        SpriteEffects.None, 0);
                 }
             }
         }
@@ -76,13 +73,12 @@ namespace GraphsMG
             {
                 foreach (Line line in node.Lines)
                 {
-                    if (!node.IsUnderUpdating)
-                        SpriteBatch.Draw(ArrowSp,
-                                        new Vector2(node.Position.X + (float)Math.Cos(line.Angle) * line.Length, node.Position.Y + (float)Math.Sin(line.Angle) * line.Length), null,
-                                        node.Color, line.Angle,
-                                        new Vector2(0, 15.5f),
-                                        new Vector2(6f / ArrowSp.Width, 6f / ArrowSp.Height),
-                                        SpriteEffects.None, 0);
+                    SpriteBatch.Draw(ArrowSp,
+                                    new Vector2(node.Position.X + (float)Math.Cos(line.Angle) * line.Length, node.Position.Y + (float)Math.Sin(line.Angle) * line.Length), null,
+                                    node.Color, line.Angle,
+                                    new Vector2(0, 15.5f),
+                                    new Vector2(6f / ArrowSp.Width, 6f / ArrowSp.Height),
+                                    SpriteEffects.None, 0);
                 }
             }
         }

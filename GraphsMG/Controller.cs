@@ -21,7 +21,9 @@ namespace GraphsMG
         };
         static bool wasLeftPressed = false;
         static bool wasRightPressed = false;
+        static bool wasMiddlePressed = false;
         static Node PickedNode = null;
+        public static Vector2 MiddlePressedPisition;
 
         static public void CheckKeyActions(Graph graph)
         {
@@ -35,6 +37,8 @@ namespace GraphsMG
         }
         static void CheckMouseActions(Graph graph)
         {
+            MiddleMouseCamDragActions();
+
             Button button = Menu.GetButtonUnderPoint(mouseState.Position);
 
             if (button == null)
@@ -68,9 +72,21 @@ namespace GraphsMG
                         if (node != null)
                         {
                             PickedNode = node;
+
                             PickedNode.IsUnderUpdating = true;
                             foreach (Line line in PickedNode.Lines)
                                 line.To.IsUnderUpdating = true;
+                            foreach(Node subNode in graph.Nodes)
+                            {
+                                foreach(Line line in subNode.Lines)
+                                {
+                                    if (line.To == node)
+                                    {
+                                        subNode.IsUnderUpdating = true;
+                                        break;
+                                    }    
+                                }
+                            }
                         }
                     }
                     else
@@ -85,7 +101,8 @@ namespace GraphsMG
                     if (PickedNode == null)
                         graph.AddNode(GetMousePosition());
                     else
-                        PickedNode.EndOfReplacing();
+                        foreach (Node node in graph.Nodes)
+                            node.IsUnderUpdating = false;
 
                     PickedNode = null;
                 }
@@ -112,10 +129,39 @@ namespace GraphsMG
 
                     if (PickedNode != null && node != null && PickedNode != node)
                     {
-                        graph.AddLink(PickedNode, node, Menu.Buttons[ButtonType.LineType].IsActive);
+                        bool lineAlreadyExists = false;
+                        foreach(Line line in PickedNode.Lines)
+                        {
+                            if (line.To == node)
+                            {
+                                lineAlreadyExists = true;
+                                break;
+                            }
+                        }
+
+                        if (!lineAlreadyExists)
+                            graph.AddLink(PickedNode, node, Menu.Buttons[ButtonType.LineType].IsActive);
                     }
 
                     PickedNode = null;
+                }
+            }
+            void MiddleMouseCamDragActions()
+            {
+                if (mouseState.MiddleButton == ButtonState.Pressed)
+                {
+                    wasMiddlePressed = true;
+
+                    if (MiddlePressedPisition != Vector2.Zero)
+                        Cam.Move(MiddlePressedPisition - GetMousePosition());
+
+                    MiddlePressedPisition = GetMousePosition();
+                }
+                else if (wasMiddlePressed && mouseState.MiddleButton == ButtonState.Released)
+                {
+                    wasMiddlePressed = false;
+
+                    MiddlePressedPisition = Vector2.Zero;
                 }
             }
 
@@ -189,9 +235,9 @@ namespace GraphsMG
             }
         }
 
-        static private Point GetMousePosition()
+        static private Vector2 GetMousePosition()
         {
-            return new Point((int)(mouseState.X / Cam.Zoom + Cam.Pos.X - (Cam.ViewportWidth / 2)/Cam.Zoom), (int)(mouseState.Y / Cam.Zoom + Cam.Pos.Y - (Cam.ViewportHeight / 2) / Cam.Zoom));
+            return new Vector2(mouseState.X / Cam.Zoom + Cam.Pos.X - (Cam.ViewportWidth / 2)/Cam.Zoom, mouseState.Y / Cam.Zoom + Cam.Pos.Y - (Cam.ViewportHeight / 2) / Cam.Zoom);
         }
         static void PerformKeyActions(Graph graph)
         {
@@ -250,11 +296,11 @@ namespace GraphsMG
             return null;
         }
 
-        public static double GetPointDistance(Point point1, Point point2)
+        public static double GetPointDistance(Vector2 point1, Vector2 point2)
         {
             return Math.Sqrt(Math.Pow(point1.X - point2.X, 2) + Math.Pow(point1.Y - point2.Y, 2));
         }
-        public static float GetPointDirection(Point point1, Point point2)
+        public static float GetPointDirection(Vector2 point1, Vector2 point2)
         {
             var radian = Math.Atan2(-(point2.Y - point1.Y), (point2.X - point1.X));
             radian = (radian < 0) ? radian + Math.PI * 2 : radian;
