@@ -89,7 +89,7 @@ namespace GraphsLogic
             {
                 foreach(Link link in node.Links)
                 {
-                    matrix[link.Node.Id, node.Id] = link.Value;
+                    matrix[node.Id, link.Node.Id] = link.Value;
                 }
             }
 

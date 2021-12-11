@@ -40,12 +40,26 @@ namespace GraphsMG
             foreach (Line line in node.Lines)
             {
                 Node neig = line.To;
+                RemoveAllLines(node);
                 RemoveLine(neig, node);
             }
 
             node.Lines.Clear();
 
             origin.RemoveNode(node.Origin);
+        }
+
+        public void RemoveAllLines(Node mainNode)
+        {
+            foreach (var node in Nodes)
+            {
+                for (var i = 0; i < node.Lines.Count; i++)
+                {
+                    if(node.Lines[i].To == mainNode)
+                        node.Lines.RemoveAt(i);
+                }
+            }
+            origin.RemoveAllLinks(mainNode.Origin);
         }
 
         public void RemoveLine(Node from, Node to, bool bothDirections = false)
