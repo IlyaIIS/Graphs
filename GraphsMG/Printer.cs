@@ -33,6 +33,8 @@ namespace GraphsMG
                 Color color;
                 if (Menu.Buttons[ButtonType.BreadthFirst].IsActive)
                     color = FlagColors[node.Flag];
+                else if (Menu.Buttons[ButtonType.DepthFirst].IsActive)
+                    color = FlagColors[node.Flag];
                 else
                     color = Color.White;
 

@@ -274,12 +274,21 @@ namespace GraphsMG
                     Menu.Buttons[ButtonType.BreadthFirst].Click();
                     SearchAlgorithms.SetFlagsToZero(graph.GetOrigin());
                 }));
-
                 t.Start();
             }
             void StartDepthFirst(Node node)
             {
-                var temp = SearchAlgorithms.DepthFirst(graph.GetOrigin(), node.Origin);
+                Thread t = new Thread(new ThreadStart(() => {
+                    var algorithm = SearchAlgorithms.DepthFirst(graph.GetOrigin(), node.Origin).GetEnumerator();
+                    while (algorithm.MoveNext())
+                    {
+                        Thread.Sleep(1000);
+                    }
+
+                    Menu.Buttons[ButtonType.DepthFirst].Click();
+                    SearchAlgorithms.SetFlagsToZero(graph.GetOrigin());
+                }));
+                t.Start();
             }
         }
 
