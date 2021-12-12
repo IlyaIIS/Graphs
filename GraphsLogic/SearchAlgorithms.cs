@@ -16,11 +16,12 @@ namespace GraphsLogic
                 {
                     QNodes.Enqueue(link.Node);
                     link.Node.Passed = true;
-                    yield return QNodes;
+                    //yield return QNodes;
                 }
             }
             while (QNodes.Count > 0)
                 BreadthFirst(graph, QNodes.Dequeue());
+            yield return QNodes;
         }
         public static IEnumerable<Queue<Node>> DepthFirst(Graph graph, Node firstNode)
         {
@@ -28,7 +29,7 @@ namespace GraphsLogic
             firstNode.Passed = true;
             foreach(var node in graph.Nodes)
             {
-                yield return QNodes;
+                //yield return QNodes;
                 QNodes.Enqueue(node);
                 DepthFirst(graph, node);
             }

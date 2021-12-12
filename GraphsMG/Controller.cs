@@ -47,7 +47,6 @@ namespace GraphsMG
                 if (Menu.Buttons[ButtonType.Removing].IsActive == false)
                 {
                     LeftMouseNodeAddActions();
-                    LeftMouseStartSearch();
                     RightMouseLineAddActions();
                 }
                 else
@@ -239,52 +238,15 @@ namespace GraphsMG
                     button.TryClick(mouseState.Position);
                 }
             }
-            void LeftMouseStartSearch()
-            {
-                if (mouseState.LeftButton == ButtonState.Pressed)
-                {
-                    wasLeftPressed = true;
-
-                    if (PickedNode == null)
-                    {
-                        Node node = GetNodeUnderMouse(graph);
-
-                        if (node != null)
-                            PickedNode = node;
-                    }
-                }
-                else if (wasLeftPressed && mouseState.LeftButton == ButtonState.Released)
-                {
-                    wasLeftPressed = false;
-
-                    Node node = GetNodeUnderMouse(graph);
-
-                    if (PickedNode != null && node != null)
-                        if (PickedNode == node)
-                        {
-                            if(Menu.Buttons[ButtonType.BreadthFirst].IsActive == true)
-                            {
-                                SearchAlgorithms.SetToZero(graph.GetOrigin());
-                                SearchAlgorithms.BreadthFirst(graph.GetOrigin(), node.Origin);
-                            }
-                            else if(Menu.Buttons[ButtonType.DepthFirst].IsActive == true)
-                            {
-                                SearchAlgorithms.SetToZero(graph.GetOrigin());
-                                SearchAlgorithms.DepthFirst(graph.GetOrigin(), node.Origin);
-                            }
-                        }
-                    PickedNode = null;
-                }
-            }
             void StartBreadthFirst(Node node)
             {
                 SearchAlgorithms.SetToZero(graph.GetOrigin());
-                SearchAlgorithms.BreadthFirst(graph.GetOrigin(), node.Origin);
+                var temp = SearchAlgorithms.BreadthFirst(graph.GetOrigin(), node.Origin);
             }
             void StartDepthFirst(Node node)
             {
                 SearchAlgorithms.SetToZero(graph.GetOrigin());
-                SearchAlgorithms.DepthFirst(graph.GetOrigin(), node.Origin);
+                var temp = SearchAlgorithms.DepthFirst(graph.GetOrigin(), node.Origin);
             }
         }
 
