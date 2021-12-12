@@ -14,6 +14,7 @@ namespace GraphsMG
         public List<Line> Lines { get; } = new List<Line>();
         public bool IsUnderUpdating { get; set; }
         public float Size { get; set; }
+        public int Flag { get { return Origin.Flag; } }
 
         public Node(GraphsLogic.Node node, Vector2 positon, float size)
         {

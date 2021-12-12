@@ -39,31 +39,26 @@ namespace GraphsMG
         public void RemoveNode(Node node)
         {
             Nodes.Remove(node);
-
-            foreach (Line line in node.Lines)
-            {
-                Node neig = line.To;
-                RemoveAllLines(node);
-                //RemoveLine(neig, node);
-            }
-
             node.Lines.Clear();
 
-            origin.RemoveNode(node.Origin);
-        }
-
-        public void RemoveAllLines(Node mainNode)
-        {
-            foreach (var node in Nodes)
+            for (int i = 0; i < node.Lines.Count; )
             {
-                for (var i = 0; i < node.Lines.Count; i++)
+                RemoveLine(node, node.Lines[i].To);
+            }
+
+            foreach(Node subNode in Nodes)
+            {
+                foreach(Line line in subNode.Lines)
                 {
-                    if(node.Lines[i].To == mainNode || node.Lines[i].From == mainNode ||
-                        node.Lines[i].To is null || node.Lines[i].From is null)
-                        node.Lines.RemoveAt(i);
+                    if (line.To == node)
+                    {
+                        RemoveLine(subNode, node);
+                        break;
+                    }
                 }
             }
-            origin.RemoveAllLinks(mainNode.Origin);
+
+            origin.RemoveNode(node.Origin);
         }
 
         public void RemoveLine(Node from, Node to, bool bothDirections = false)
