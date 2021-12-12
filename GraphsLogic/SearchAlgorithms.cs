@@ -53,7 +53,7 @@ namespace GraphsLogic
             firstNode.Flag = 2;
             foreach(var node in graph.Nodes)
             {
-                //yield return QNodes;
+                yield return QNodes;
                 QNodes.Enqueue(node);
                 DepthFirst(graph, node);
             }
