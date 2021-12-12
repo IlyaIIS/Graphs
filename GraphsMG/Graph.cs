@@ -24,7 +24,10 @@ namespace GraphsMG
             origin.AddNode(newNode);
             Nodes.Add(new Node(newNode, position, NodeSize));
         }
-
+        public GraphsLogic.Graph GetOrigin()
+        {
+            return origin;
+        }
         public void AddLink(Node firstNode, Node secondNode, bool isBiderectional, double value = 1)
         {
             origin.AddLink(firstNode.Origin, secondNode.Origin, value, isBiderectional ? LinkType.Bidirectional : LinkType.Unidirectional);
@@ -41,7 +44,7 @@ namespace GraphsMG
             {
                 Node neig = line.To;
                 RemoveAllLines(node);
-                RemoveLine(neig, node);
+                //RemoveLine(neig, node);
             }
 
             node.Lines.Clear();
@@ -55,7 +58,8 @@ namespace GraphsMG
             {
                 for (var i = 0; i < node.Lines.Count; i++)
                 {
-                    if(node.Lines[i].To == mainNode)
+                    if(node.Lines[i].To == mainNode || node.Lines[i].From == mainNode ||
+                        node.Lines[i].To is null || node.Lines[i].From is null)
                         node.Lines.RemoveAt(i);
                 }
             }

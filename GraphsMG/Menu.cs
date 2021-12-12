@@ -22,6 +22,9 @@ namespace GraphsMG
             Buttons.Add(ButtonType.Saving, new Button(new Point(0, 2*size), size, textures[ButtonType.Saving], () => { graph.Save(path); }));
             Buttons.Add(ButtonType.Loading, new Button(new Point(0, 3*size), size, textures[ButtonType.Loading], () => { graph.Load(path); }));
             Buttons.Add(ButtonType.Spreading, new Button(new Point(0, 4 * size), size, textures[ButtonType.Spreading], () => { }, true));
+            //сортировки
+            Buttons.Add(ButtonType.BreadthFirst, new Button(new Point(0, 5 * size), size, textures[ButtonType.BreadthFirst], () => { }));
+            Buttons.Add(ButtonType.DepthFirst, new Button(new Point(0, 6 * size), size, textures[ButtonType.DepthFirst], () => { }));
         }
 
         static public Button GetButtonUnderPoint(Point pos)
@@ -42,6 +45,8 @@ namespace GraphsMG
         ShowingNodeNames,
         Saving,
         Loading,
-        Spreading
+        Spreading,
+        BreadthFirst,
+        DepthFirst
     }
 }

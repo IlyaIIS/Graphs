@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using GraphsLogic;
 using System.Text;
 
 namespace GraphsMG
@@ -46,6 +47,7 @@ namespace GraphsMG
                 if (Menu.Buttons[ButtonType.Removing].IsActive == false)
                 {
                     LeftMouseNodeAddActions();
+                    LeftMouseStartSearch();
                     RightMouseLineAddActions();
                 }
                 else
@@ -76,15 +78,15 @@ namespace GraphsMG
                             PickedNode.IsUnderUpdating = true;
                             foreach (Line line in PickedNode.Lines)
                                 line.To.IsUnderUpdating = true;
-                            foreach(Node subNode in graph.Nodes)
+                            foreach (Node subNode in graph.Nodes)
                             {
-                                foreach(Line line in subNode.Lines)
+                                foreach (Line line in subNode.Lines)
                                 {
                                     if (line.To == node)
                                     {
                                         subNode.IsUnderUpdating = true;
                                         break;
-                                    }    
+                                    }
                                 }
                             }
                         }
@@ -92,6 +94,10 @@ namespace GraphsMG
                     else
                     {
                         PickedNode.Position = GetMousePosition();
+                        if (Menu.Buttons[ButtonType.BreadthFirst].IsActive == true)
+                            StartBreadthFirst(PickedNode);
+                        else if (Menu.Buttons[ButtonType.DepthFirst].IsActive == true)
+                            StartDepthFirst(PickedNode);
                     }
                 }
                 else if (wasLeftPressed && mouseState.LeftButton == ButtonState.Released)
@@ -232,6 +238,53 @@ namespace GraphsMG
 
                     button.TryClick(mouseState.Position);
                 }
+            }
+            void LeftMouseStartSearch()
+            {
+                if (mouseState.LeftButton == ButtonState.Pressed)
+                {
+                    wasLeftPressed = true;
+
+                    if (PickedNode == null)
+                    {
+                        Node node = GetNodeUnderMouse(graph);
+
+                        if (node != null)
+                            PickedNode = node;
+                    }
+                }
+                else if (wasLeftPressed && mouseState.LeftButton == ButtonState.Released)
+                {
+                    wasLeftPressed = false;
+
+                    Node node = GetNodeUnderMouse(graph);
+
+                    if (PickedNode != null && node != null)
+                        if (PickedNode == node)
+                        {
+                            if(Menu.Buttons[ButtonType.BreadthFirst].IsActive == true)
+                            {
+                                SearchAlgorithms.SetToZero(graph.GetOrigin());
+                                SearchAlgorithms.BreadthFirst(graph.GetOrigin(), node.Origin);
+                            }
+                            else if(Menu.Buttons[ButtonType.DepthFirst].IsActive == true)
+                            {
+                                SearchAlgorithms.SetToZero(graph.GetOrigin());
+                                SearchAlgorithms.DepthFirst(graph.GetOrigin(), node.Origin);
+                            }
+                        }
+                    PickedNode = null;
+                }
+            }
+            void StartBreadthFirst(Node node)
+            {
+                SearchAlgorithms.SetToZero(graph.GetOrigin());
+                SearchAlgorithms.BreadthFirst(graph.GetOrigin(), node.Origin);
+            }
+            void StartDepthFirst(Node node)
+            {
+                SearchAlgorithms.SetToZero(graph.GetOrigin());
+                SearchAlgorithms.DepthFirst(graph.GetOrigin(), node.Origin);
             }
         }
 

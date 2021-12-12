@@ -52,6 +52,7 @@ namespace GraphsLogic
 
         public void RemoveAllLinks(Node node)
         {
+            node.Links.Clear();
             for(int i = 0; i < Nodes.Count; i++)
             {
                 for (int j = 0; j < Nodes[i].Links.Count; j++)
