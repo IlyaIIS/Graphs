@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using GraphsLogic;
 using System.Text;
+using System.Threading;
 
 namespace GraphsMG
 {
@@ -44,15 +45,19 @@ namespace GraphsMG
 
             if (button == null)
             {
-                if (Menu.Buttons[ButtonType.Removing].IsActive == false)
+                if (Menu.Buttons[ButtonType.BreadthFirst].IsActive)
                 {
-                    LeftMouseNodeAddActions();
-                    RightMouseLineAddActions();
+                    LeftMouseAlgorithmsActions();
                 }
-                else
+                else if (Menu.Buttons[ButtonType.Removing].IsActive)
                 {
                     LeftMouseNodeRemovingActions();
                     RightMouseLineRemovingActions();
+                }
+                else
+                {
+                    LeftMouseNodeAddActions();
+                    RightMouseLineAddActions();
                 }
             }
             else
@@ -236,16 +241,44 @@ namespace GraphsMG
                     wasLeftPressed = false;
 
                     button.TryClick(mouseState.Position);
+                    //if (button == Menu.Buttons[ButtonType.BreadthFirst])
+                        //SearchAlgorithms.SetFlagsToZero(graph.GetOrigin());
+                }
+            }
+
+            void LeftMouseAlgorithmsActions()
+            {
+                if (mouseState.LeftButton == ButtonState.Pressed)
+                {
+                    wasLeftPressed = true;
+                }
+                else if (wasLeftPressed && mouseState.LeftButton == ButtonState.Released)
+                {
+                    wasLeftPressed = false;
+
+                    Node node = GetNodeUnderMouse(graph);
+
+                    if (node != null)
+                        StartBreadthFirst(node);
                 }
             }
             void StartBreadthFirst(Node node)
             {
-                SearchAlgorithms.SetToZero(graph.GetOrigin());
-                var temp = SearchAlgorithms.BreadthFirst(graph.GetOrigin(), node.Origin);
+                Thread t = new Thread(new ThreadStart(() => {
+                    var algorithm = SearchAlgorithms.BreadthFirst(graph.GetOrigin(), node.Origin).GetEnumerator();
+                    while (algorithm.MoveNext())
+                    {
+                        Thread.Sleep(1000);
+                    }
+
+                    Menu.Buttons[ButtonType.BreadthFirst].Click();
+                    SearchAlgorithms.SetFlagsToZero(graph.GetOrigin());
+                }));
+
+                t.Start();
             }
             void StartDepthFirst(Node node)
             {
-                SearchAlgorithms.SetToZero(graph.GetOrigin());
                 var temp = SearchAlgorithms.DepthFirst(graph.GetOrigin(), node.Origin);
             }
         }

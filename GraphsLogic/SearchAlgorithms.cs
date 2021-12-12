@@ -6,27 +6,51 @@ namespace GraphsLogic
 {
     public static class SearchAlgorithms
     {
-        public static IEnumerable<Queue<Node>> BreadthFirst(Graph graph, Node firstNode)
+        public static IEnumerable<bool> BreadthFirst(Graph graph, Node firstNode)
         {
-            Queue<Node> QNodes = new Queue<Node>();
-            firstNode.Passed = true;
-            foreach (var link in firstNode.Links)
+            SetFlagsToZero(graph);
+
+            int passedNodesNum = 0;
+            int lastPassedNodesNum;
+            firstNode.Flag = 1;
+            yield return true;
+            do
             {
-                if(!link.Node.Passed)
+                lastPassedNodesNum = passedNodesNum;
+
+                foreach (Node node in graph.Nodes)
                 {
-                    QNodes.Enqueue(link.Node);
-                    link.Node.Passed = true;
-                    //yield return QNodes;
+                    if (node.Flag == 1)
+                    {
+                        foreach (Link link in node.Links)
+                        {
+                            if (link.Node.Flag == 0)
+                            {
+                                link.Node.Flag = -1;
+                            }
+                        }
+
+                        node.Flag = 2;
+                        passedNodesNum++;
+                    }
                 }
-            }
-            while (QNodes.Count > 0)
-                BreadthFirst(graph, QNodes.Dequeue());
-            yield return QNodes;
+
+                foreach(Node node in graph.Nodes)
+                {
+                    if (node.Flag == -1)
+                        node.Flag = 1;
+                }
+
+                yield return true;
+            } while (passedNodesNum != lastPassedNodesNum);
+            yield break;
         }
         public static IEnumerable<Queue<Node>> DepthFirst(Graph graph, Node firstNode)
         {
+            SetFlagsToZero(graph);
+
             Queue<Node> QNodes = new Queue<Node>();
-            firstNode.Passed = true;
+            firstNode.Flag = 2;
             foreach(var node in graph.Nodes)
             {
                 //yield return QNodes;
@@ -36,10 +60,10 @@ namespace GraphsLogic
             yield return QNodes;
         }
 
-        public static void SetToZero(Graph graph)
+        public static void SetFlagsToZero(Graph graph)
         {
             foreach (var node in graph.Nodes)
-                node.Passed = false;
+                node.Flag = 0;
         }
     }
 }

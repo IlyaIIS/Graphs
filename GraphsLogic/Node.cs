@@ -8,7 +8,7 @@ namespace GraphsLogic
     {
         public List<Link> Links { get; } = new List<Link>();
         public int Id { get; }
-        public bool Passed { get; set; } = false;
+        public int Flag { get; set; } // 0 - не профденый, 1 - активный, 2 - пройденный
         public Node(int id)
         {
             Id = id;

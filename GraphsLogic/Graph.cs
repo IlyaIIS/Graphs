@@ -49,22 +49,6 @@ namespace GraphsLogic
             if (bothDirections)
                 RemoveLink(to, from);
         }
-
-        public void RemoveAllLinks(Node node)
-        {
-            node.Links.Clear();
-            for(int i = 0; i < Nodes.Count; i++)
-            {
-                for (int j = 0; j < Nodes[i].Links.Count; j++)
-                {
-                    if (Nodes[i].Links[j].Node == node)
-                    {
-                        Nodes[i].Links.RemoveAt(j);
-                        break;
-                    }
-                }
-            }
-        }
     }
 
     public enum LinkType

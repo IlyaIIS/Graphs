@@ -14,8 +14,9 @@ namespace GraphsMG
         static public Texture2D LineSp { get; set; }
         static public Texture2D ArrowSp { get; set; }
 
-
         static public SpriteFont Font { get; set; }
+
+        static public Color[] FlagColors = new Color[3] { Color.Green, Color.Orange, Color.Red };
 
         static public void DrawGraph(SpriteBatch spriteBatch, Graph graph)
         {
@@ -29,9 +30,15 @@ namespace GraphsMG
         {
             foreach (Node node in graph.Nodes)
             {
+                Color color;
+                if (Menu.Buttons[ButtonType.BreadthFirst].IsActive)
+                    color = FlagColors[node.Flag];
+                else
+                    color = Color.White;
+
                 SpriteBatch.Draw(NodeSp,
                                 new Vector2(node.Position.X - graph.NodeSize / 2, node.Position.Y - graph.NodeSize / 2), null,
-                                node.Color, 0,
+                                color, 0,
                                 new Vector2(0, 0),
                                 new Vector2(graph.NodeSize / NodeSp.Width, graph.NodeSize / NodeSp.Height),
                                 SpriteEffects.None, 0);
