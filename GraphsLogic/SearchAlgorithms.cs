@@ -8,7 +8,7 @@ namespace GraphsLogic
     {
         public static IEnumerable<bool> BreadthFirst(Graph graph, Node firstNode)
         {
-            SetFlagsToZero(graph);
+            ResetFlags(graph);
 
             int passedNodesNum = 0;
             int lastPassedNodesNum;
@@ -26,7 +26,7 @@ namespace GraphsLogic
                         {
                             if (link.Node.Flag == 0)
                             {
-                                link.Node.Flag = -1;
+                                link.Node.Flag = 3;
                             }
                         }
 
@@ -37,7 +37,7 @@ namespace GraphsLogic
 
                 foreach(Node node in graph.Nodes)
                 {
-                    if (node.Flag == -1)
+                    if (node.Flag == 3)
                         node.Flag = 1;
                 }
 
@@ -47,7 +47,7 @@ namespace GraphsLogic
         }
         public static IEnumerable<bool> DepthFirst(Graph graph, Node firstNode)
         {
-            SetFlagsToZero(graph);
+            ResetFlags(graph);
             Stack<Node> nodes = new Stack<Node>();
             firstNode.Flag = 1;
             do
@@ -90,7 +90,7 @@ namespace GraphsLogic
             yield break;
         }
 
-        public static void SetFlagsToZero(Graph graph)
+        public static void ResetFlags(Graph graph)
         {
             foreach (var node in graph.Nodes)
                 node.Flag = 0;

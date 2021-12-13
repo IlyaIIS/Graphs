@@ -16,7 +16,7 @@ namespace GraphsMG
 
         static public SpriteFont Font { get; set; }
 
-        static public Color[] FlagColors = new Color[3] { Color.Green, Color.Orange, Color.Red };
+        static public Color[] FlagColors = new Color[4] { Color.Green, Color.Orange, Color.Red, Color.Purple};
 
         static public void DrawGraph(SpriteBatch spriteBatch, Graph graph)
         {
@@ -31,9 +31,7 @@ namespace GraphsMG
             foreach (Node node in graph.Nodes)
             {
                 Color color;
-                if (Menu.Buttons[ButtonType.BreadthFirst].IsActive)
-                    color = FlagColors[node.Flag];
-                else if (Menu.Buttons[ButtonType.DepthFirst].IsActive)
+                if (Menu.Buttons[ButtonType.BreadthFirst].IsActive || Menu.Buttons[ButtonType.DepthFirst].IsActive || Menu.Buttons[ButtonType.GetWay].IsActive)
                     color = FlagColors[node.Flag];
                 else
                     color = Color.White;

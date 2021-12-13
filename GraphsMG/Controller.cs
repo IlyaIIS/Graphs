@@ -49,6 +49,10 @@ namespace GraphsMG
                 {
                     LeftMouseAlgorithmsActions();
                 }
+                else if (Menu.Buttons[ButtonType.GetWay].IsActive)
+                {
+                    LeftMouseGetWayActions();
+                }
                 else if (Menu.Buttons[ButtonType.Removing].IsActive)
                 {
                     LeftMouseNodeRemovingActions();
@@ -62,7 +66,7 @@ namespace GraphsMG
             }
             else
             {
-                if (!Menu.Buttons[ButtonType.BreadthFirst].IsActive && !Menu.Buttons[ButtonType.DepthFirst].IsActive)
+                if (!Menu.Buttons[ButtonType.BreadthFirst].IsActive && !Menu.Buttons[ButtonType.DepthFirst].IsActive && !Menu.Buttons[ButtonType.GetWay].IsActive)
                     LeftMouseButtonClickActions();
             }
 
@@ -253,13 +257,17 @@ namespace GraphsMG
                 {
                     wasLeftPressed = false;
 
-                    Node node = GetNodeUnderMouse(graph);
-                    if (node != null)
+                    if (PickedNode == null)
                     {
-                        if (Menu.Buttons[ButtonType.BreadthFirst].IsActive == true)
-                            StartBreadthFirst(node);
-                        else if (Menu.Buttons[ButtonType.DepthFirst].IsActive == true)
-                            StartDepthFirst(node);
+                        Node node = GetNodeUnderMouse(graph);
+                        PickedNode = node;
+                        if (node != null)
+                        {
+                            if (Menu.Buttons[ButtonType.BreadthFirst].IsActive == true)
+                                StartBreadthFirst(node);
+                            else if (Menu.Buttons[ButtonType.DepthFirst].IsActive == true)
+                                StartDepthFirst(node);
+                        }
                     }
                 }
             }
@@ -273,7 +281,8 @@ namespace GraphsMG
                     }
 
                     Menu.Buttons[ButtonType.BreadthFirst].Click();
-                    SearchAlgorithms.SetFlagsToZero(graph.GetOrigin());
+                    PickedNode = null;
+                    SearchAlgorithms.ResetFlags(graph.GetOrigin());
                 }));
                 t.Start();
             }
@@ -287,9 +296,36 @@ namespace GraphsMG
                     }
 
                     Menu.Buttons[ButtonType.DepthFirst].Click();
-                    SearchAlgorithms.SetFlagsToZero(graph.GetOrigin());
+                    PickedNode = null;
+                    SearchAlgorithms.ResetFlags(graph.GetOrigin());
                 }));
                 t.Start();
+            }
+
+            void LeftMouseGetWayActions()
+            {
+                if (mouseState.LeftButton == ButtonState.Pressed)
+                {
+                    wasLeftPressed = true;
+                }
+                else if (wasLeftPressed && mouseState.LeftButton == ButtonState.Released)
+                {
+                    wasLeftPressed = false;
+
+                    if (PickedNode == null)
+                    {
+                        SearchAlgorithms.ResetFlags(graph.GetOrigin());
+                        PickedNode = GetNodeUnderMouse(graph);
+                        PickedNode.Origin.Flag = 1;
+                    }
+                    else
+                    {
+                        Node node = GetNodeUnderMouse(graph);
+                        node.Origin.Flag = 3;
+                        SearchAlgorithms.GetWay(graph.GetOrigin(), node.Origin, PickedNode.Origin);
+                        PickedNode = null;
+                    }
+                }
             }
         }
         static private Vector2 GetMousePosition()
