@@ -45,7 +45,7 @@ namespace GraphsMG
 
             if (button == null)
             {
-                if (Menu.Buttons[ButtonType.BreadthFirst].IsActive)
+                if (Menu.Buttons[ButtonType.BreadthFirst].IsActive || Menu.Buttons[ButtonType.DepthFirst].IsActive)
                 {
                     LeftMouseAlgorithmsActions();
                 }
@@ -62,7 +62,8 @@ namespace GraphsMG
             }
             else
             {
-                LeftMouseButtonClickActions();
+                if (!Menu.Buttons[ButtonType.BreadthFirst].IsActive && !Menu.Buttons[ButtonType.DepthFirst].IsActive)
+                    LeftMouseButtonClickActions();
             }
 
             void LeftMouseNodeAddActions()
@@ -98,10 +99,6 @@ namespace GraphsMG
                     else
                     {
                         PickedNode.Position = GetMousePosition();
-                        if (Menu.Buttons[ButtonType.BreadthFirst].IsActive == true)
-                            StartBreadthFirst(PickedNode);
-                        else if (Menu.Buttons[ButtonType.DepthFirst].IsActive == true)
-                            StartDepthFirst(PickedNode);
                     }
                 }
                 else if (wasLeftPressed && mouseState.LeftButton == ButtonState.Released)
@@ -257,9 +254,13 @@ namespace GraphsMG
                     wasLeftPressed = false;
 
                     Node node = GetNodeUnderMouse(graph);
-
                     if (node != null)
-                        StartBreadthFirst(node);
+                    {
+                        if (Menu.Buttons[ButtonType.BreadthFirst].IsActive == true)
+                            StartBreadthFirst(node);
+                        else if (Menu.Buttons[ButtonType.DepthFirst].IsActive == true)
+                            StartDepthFirst(node);
+                    }
                 }
             }
             void StartBreadthFirst(Node node)
@@ -282,7 +283,7 @@ namespace GraphsMG
                     var algorithm = SearchAlgorithms.DepthFirst(graph.GetOrigin(), node.Origin).GetEnumerator();
                     while (algorithm.MoveNext())
                     {
-                        Thread.Sleep(1000);
+                        Thread.Sleep(500);
                     }
 
                     Menu.Buttons[ButtonType.DepthFirst].Click();
@@ -291,7 +292,6 @@ namespace GraphsMG
                 t.Start();
             }
         }
-
         static private Vector2 GetMousePosition()
         {
             return new Vector2(mouseState.X / Cam.Zoom + Cam.Pos.X - (Cam.ViewportWidth / 2)/Cam.Zoom, mouseState.Y / Cam.Zoom + Cam.Pos.Y - (Cam.ViewportHeight / 2) / Cam.Zoom);
