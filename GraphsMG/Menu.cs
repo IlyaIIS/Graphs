@@ -24,6 +24,7 @@ namespace GraphsMG
             Buttons.Add(ButtonType.Spreading, new Button(new Point(0, 4 * size), size, textures[ButtonType.Spreading], () => { }, true));
             Buttons.Add(ButtonType.BreadthFirst, new Button(new Point(0, 5 * size), size, textures[ButtonType.BreadthFirst], () => { }));
             Buttons.Add(ButtonType.DepthFirst, new Button(new Point(0, 6 * size), size, textures[ButtonType.DepthFirst], () => { }));
+            Buttons.Add(ButtonType.GetWay, new Button(new Point(0, 7 * size), size, textures[ButtonType.GetWay], () => { }));
         }
 
         static public Button GetButtonUnderPoint(Point pos)
@@ -46,6 +47,7 @@ namespace GraphsMG
         Loading,
         Spreading,
         BreadthFirst,
-        DepthFirst
+        DepthFirst,
+        GetWay
     }
 }

@@ -95,5 +95,9 @@ namespace GraphsLogic
             foreach (var node in graph.Nodes)
                 node.Flag = 0;
         }
+        public static void GetWay(Graph graph, Node firstNode, Node lastNode)
+        {
+            //
+        }
     }
 }

@@ -121,6 +121,30 @@
 /processorParam:TextureFormat=Color
 /build:../Textures/Buttons/ButtonSpread2.png;ButtonSpread2.png
 
+#begin ../Textures/Buttons/ButtonWay1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Textures/Buttons/ButtonWay1.png;ButtonWay1.png
+
+#begin ../Textures/Buttons/ButtonWay2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Textures/Buttons/ButtonWay2.png;ButtonWay2.png
+
 #begin ../Textures/Circle.png
 /importer:TextureImporter
 /processor:TextureProcessor
