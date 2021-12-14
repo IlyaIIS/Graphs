@@ -186,7 +186,11 @@ namespace GraphsLogic
                         if(allLinks[i].Value == 0)
                         {
                             while (way.Count > i + 1)
+                            {
+                                if (way[^1].Flag == 3)
+                                    way[^1].Flag = 0;
                                 way.RemoveAt(way.Count - 1);
+                            }    
                         }
                     }
                     currentNode = way[^1];
