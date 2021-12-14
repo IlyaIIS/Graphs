@@ -29,6 +29,7 @@ namespace GraphsMG
             Buttons.Add(ButtonType.Void, new Button(new Point(11, 8 * (int)size.Y), size, textures[ButtonType.Void], () => { }));
             Buttons.Add(ButtonType.Minus, new Button(new Point(0, 8 * (int)size.Y), new Vector2(10, size.Y), textures[ButtonType.Minus], () => { Value = Math.Max(1,Value-1); }));
             Buttons.Add(ButtonType.Plus, new Button(new Point(42, 8 * (int)size.Y), new Vector2(10, size.Y), textures[ButtonType.Plus], () => { Value++; }));
+            Buttons.Add(ButtonType.MaxFlow, new Button(new Point(0, 9 * (int)size.Y), size, textures[ButtonType.MaxFlow], () => { }));
         }
 
         public static Button GetButtonUnderPoint(Point pos)
@@ -55,6 +56,7 @@ namespace GraphsMG
         GetWay,
         Void,
         Plus,
-        Minus
+        Minus,
+        MaxFlow
     }
 }

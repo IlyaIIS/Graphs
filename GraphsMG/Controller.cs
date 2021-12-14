@@ -51,6 +51,10 @@ namespace GraphsMG
                 {
                     LeftMouseGetWayActions();
                 }
+                else if(Menu.Buttons[ButtonType.MaxFlow].IsActive)
+                {
+                    LeftMouseMaxFlowActions();
+                }
                 else if (Menu.Buttons[ButtonType.Removing].IsActive)
                 {
                     LeftMouseNodeRemovingActions();
@@ -261,9 +265,9 @@ namespace GraphsMG
                         PickedNode = node;
                         if (node != null)
                         {
-                            if (Menu.Buttons[ButtonType.BreadthFirst].IsActive == true)
+                            if (Menu.Buttons[ButtonType.BreadthFirst].IsActive)
                                 StartBreadthFirst(node);
-                            else if (Menu.Buttons[ButtonType.DepthFirst].IsActive == true)
+                            else if (Menu.Buttons[ButtonType.DepthFirst].IsActive)
                                 StartDepthFirst(node);
                         }
                     }
@@ -329,6 +333,33 @@ namespace GraphsMG
                         Node node = GetNodeUnderMouse(graph);
                         node.Origin.Flag = 3;
                         SearchAlgorithms.GetWay(graph.GetOrigin(), node.Origin, PickedNode.Origin);
+                        PickedNode = null;
+                    }
+                }
+            }
+            void LeftMouseMaxFlowActions()
+            {
+                if (mouseState.LeftButton == ButtonState.Pressed)
+                {
+                    wasLeftPressed = true;
+                }
+                else if (wasLeftPressed && mouseState.LeftButton == ButtonState.Released)
+                {
+                    wasLeftPressed = false;
+
+                    if (PickedNode == null)
+                    {
+                        SearchAlgorithms.ResetFlags(graph.GetOrigin());
+                        PickedNode = GetNodeUnderMouse(graph);
+                        PickedNode.Origin.Flag = 1;
+                    }
+                    else
+                    {
+                        Node node = GetNodeUnderMouse(graph);
+                        node.Origin.Flag = 3;
+                        algorithm = SearchAlgorithms.MaximumFlow(graph.GetOrigin(), PickedNode.Origin, node.Origin).GetEnumerator();
+                        algorithm.MoveNext();
+                        Printer.Log.Add(algorithm.Current);
                         PickedNode = null;
                     }
                 }
