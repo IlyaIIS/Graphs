@@ -149,7 +149,7 @@ namespace GraphsMG
                         }
 
                         if (!lineAlreadyExists)
-                            graph.AddLink(PickedNode, node, Menu.Buttons[ButtonType.LineType].IsActive);
+                            graph.AddLink(PickedNode, node, Menu.Buttons[ButtonType.LineType].IsActive, Menu.Value);
                     }
 
                     PickedNode = null;

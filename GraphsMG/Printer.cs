@@ -15,6 +15,7 @@ namespace GraphsMG
         static public Texture2D ArrowSp { get; set; }
 
         static public SpriteFont Font { get; set; }
+        static public SpriteFont EdgeFont { get; set; }
 
         static public Color[] FlagColors = new Color[4] { Color.Green, Color.Orange, Color.Red, Color.Purple};
 
@@ -26,6 +27,7 @@ namespace GraphsMG
             DrawEdges(graph);
             DrawNodes(graph);
             DrawArrows(graph);
+            DrawEdgesValues(graph);
         }
 
         static void DrawNodes(Graph graph)
@@ -45,7 +47,7 @@ namespace GraphsMG
                                 new Vector2(graph.NodeSize / NodeSp.Width, graph.NodeSize / NodeSp.Height),
                                 SpriteEffects.None, 0);
 
-                SpriteBatch.DrawString(Font, node.Origin.Id.ToString(), new Vector2(node.Position.X, node.Position.Y), Color.Black);
+                SpriteBatch.DrawString(Font, node.Origin.Id.ToString(), new Vector2(node.Position.X - node.Size/5, node.Position.Y - node.Size / 2 + 2), Color.Black);
             }
 
             //инфа от тайла под курсором
@@ -91,6 +93,18 @@ namespace GraphsMG
                 }
             }
         }
+        static void DrawEdgesValues(Graph graph)
+        {
+            foreach (Node node in graph.Nodes)
+            {
+                foreach (Line line in node.Lines)
+                {
+                    float x = node.Position.X + line.Length * (float)Math.Cos(line.Angle);
+                    float y = node.Position.Y + line.Length * (float)Math.Sin(line.Angle);
+                    SpriteBatch.DrawString(EdgeFont, line.Value.ToString(), new Vector2(x, y), Color.Black);
+                }
+            }
+        }
 
         static public void DrawMenu(Graph graph)
         {
@@ -102,7 +116,7 @@ namespace GraphsMG
                                 new Vector2(button.Position.X, button.Position.Y), null,
                                 Color.White, 0,
                                 new Vector2(0, 0),
-                                new Vector2(button.Size / texture.Width, button.Size / texture.Height),
+                                new Vector2(button.Size.X / texture.Width, button.Size.Y / texture.Height),
                                 SpriteEffects.None, 0);
             }
 
@@ -122,6 +136,11 @@ namespace GraphsMG
                 SpriteBatch.DrawString(Font, "Active vertices: " + activeNodes.ToString(), new Vector2(20, 600), Color.Black);
                 SpriteBatch.DrawString(Font, "Passed vertices: " + passedNodes.ToString(), new Vector2(20, 620), Color.Black);
                 SpriteBatch.DrawString(Font, "Log: " + Log[^1], new Vector2(20, 640), Color.Black);
+            }
+
+            {
+                Button button = Menu.Buttons[ButtonType.Void];
+                SpriteBatch.DrawString(Font, Menu.Value.ToString(), new Vector2(button.Position.X + button.Size.X/2 - 5*Menu.Value.ToString().Length, button.Position.Y + button.Size.Y / 4), Color.Black);
             }
         }
 

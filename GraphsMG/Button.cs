@@ -9,12 +9,12 @@ namespace GraphsMG
     class Button
     {
         public Point Position { get; }
-        public float Size { get; }
+        public Vector2 Size { get; }
         public bool IsActive { get; private set; }
         public Texture2D[] Sprites { get; set; } = new Texture2D[2];
         private event Action click;
 
-        public Button(Point pos, float size, Texture2D[] sprites, Action _click, bool isActive = false)
+        public Button(Point pos, Vector2 size, Texture2D[] sprites, Action _click, bool isActive = false)
         {
             Position = pos;
             Size = size;
@@ -42,8 +42,8 @@ namespace GraphsMG
 
         public bool IsUnderPoint(Point pos)
         {
-            if (Position.X < pos.X && Position.X + Size > pos.X &&
-                Position.Y < pos.Y && Position.Y + Size > pos.Y)
+            if (Position.X < pos.X && Position.X + Size.X > pos.X &&
+                Position.Y < pos.Y && Position.Y + Size.Y > pos.Y)
             {
                 return true;
             }

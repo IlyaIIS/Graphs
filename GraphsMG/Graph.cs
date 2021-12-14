@@ -28,7 +28,7 @@ namespace GraphsMG
         {
             return origin;
         }
-        public void AddLink(Node firstNode, Node secondNode, bool isBiderectional, double value = 1)
+        public void AddLink(Node firstNode, Node secondNode, bool isBiderectional, int value = 1)
         {
             origin.AddLink(firstNode.Origin, secondNode.Origin, value, isBiderectional ? LinkType.Bidirectional : LinkType.Unidirectional);
             firstNode.Lines.Add(new Line(firstNode, secondNode, value));

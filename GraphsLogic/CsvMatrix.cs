@@ -7,10 +7,10 @@ namespace GraphsLogic
 {
     public static class CsvMatrix
     {
-        private static double[,] GetMatrix(string path)
+        private static int[,] GetMatrix(string path)
         {
             string[] lines = File.ReadAllLines(path = Directory.GetCurrentDirectory() + @"\matrix.csv");
-            double[,] matrix = new double[lines.Length, lines.Length];
+            int[,] matrix = new int[lines.Length, lines.Length];
             for(int i = 0; i < lines.Length; i++)
             {
                 int j = 0;
@@ -20,7 +20,7 @@ namespace GraphsLogic
                 {
                     if( c == ';')
                     {
-                        matrix[i, j] = Int64.Parse(temp);
+                        matrix[i, j] = Int32.Parse(temp);
                         temp = string.Empty;
                         j++;
                         continue;
@@ -51,7 +51,7 @@ namespace GraphsLogic
 
         public static Graph GetGraph(string path)
         {
-            double[,] matrix = GetMatrix(path);
+            int[,] matrix = GetMatrix(path);
             Graph graph = new Graph();
             for(int i = 0; i < Math.Sqrt(matrix.Length); i++)
                 graph.Nodes.Add(new Node(i));

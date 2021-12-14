@@ -8,13 +8,13 @@ namespace GraphsMG
 {
     class Line
     {
-        public double Value { get; }
+        public int Value { get; }
         public float Length { get; private set; }
         public float Angle { get; private set; }
         public Node From { get; }
         public Node To { get; }
 
-        public Line(Node from, Node to, double value = 1)
+        public Line(Node from, Node to, int value = 1)
         {
             Length = (float)Controller.GetPointDistance(from.Position, to.Position) - (to.Size + 6) / 2;
             Angle = Controller.GetPointDirection(from.Position, to.Position);

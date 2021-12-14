@@ -49,11 +49,14 @@ namespace GraphsMG
                 { ButtonType.Spreading, new Texture2D[2] { Content.Load<Texture2D>("ButtonSpread1"), Content.Load<Texture2D>("ButtonSpread2") } },
                 { ButtonType.DepthFirst, new Texture2D[2] { Content.Load<Texture2D>("ButtonDepthFirst1"), Content.Load<Texture2D>("ButtonDepthFirst2") } },
                 { ButtonType.BreadthFirst, new Texture2D[2] { Content.Load<Texture2D>("ButtonBreadthFirst1"), Content.Load<Texture2D>("ButtonBreadthFirst2") } },
-                { ButtonType.GetWay, new Texture2D[2] { Content.Load<Texture2D>("ButtonWay1"), Content.Load<Texture2D>("ButtonWay2") } }
+                { ButtonType.GetWay, new Texture2D[2] { Content.Load<Texture2D>("ButtonWay1"), Content.Load<Texture2D>("ButtonWay2") } },
+                { ButtonType.Void, new Texture2D[2] { Content.Load<Texture2D>("ButtonVoid"), Content.Load<Texture2D>("ButtonVoid") } },
+                { ButtonType.Minus, new Texture2D[2] { Content.Load<Texture2D>("ButtonMinus"), Content.Load<Texture2D>("ButtonMinus") } },
+                { ButtonType.Plus, new Texture2D[2] { Content.Load<Texture2D>("ButtonPlus"), Content.Load<Texture2D>("ButtonPlus") } }
             });
 
             Printer.Font = Content.Load<SpriteFont>("defaultFont");
-            
+            Printer.EdgeFont = Content.Load<SpriteFont>("edgeFont");
         }
 
         protected override void Update(GameTime gameTime)

@@ -61,6 +61,30 @@
 /processorParam:TextureFormat=Color
 /build:../Textures/Buttons/ButtonLoad.png;ButtonLoad.png
 
+#begin ../Textures/Buttons/ButtonMinus.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Textures/Buttons/ButtonMinus.png;ButtonMinus.png
+
+#begin ../Textures/Buttons/ButtonPlus.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Textures/Buttons/ButtonPlus.png;ButtonPlus.png
+
 #begin ../Textures/Buttons/ButtonRemove1.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -120,6 +144,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Textures/Buttons/ButtonSpread2.png;ButtonSpread2.png
+
+#begin ../Textures/Buttons/ButtonVoid.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Textures/Buttons/ButtonVoid.png;ButtonVoid.png
 
 #begin ../Textures/Buttons/ButtonWay1.png
 /importer:TextureImporter
@@ -223,4 +259,11 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:defaultFont.spritefont
+
+#begin edgeFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:edgeFont.spritefont
 
