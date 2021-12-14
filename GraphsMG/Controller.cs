@@ -16,16 +16,14 @@ namespace GraphsMG
         static private int preMouseScroll = 0;
         static Dictionary<Keys, bool> wasKeyPressed = new Dictionary<Keys, bool>()
         {
-            { Keys.Q, false},
-            { Keys.E, false},
-            { Keys.R, false},
-            { Keys.G, false},
+            { Keys.Space, false},
         };
         static bool wasLeftPressed = false;
         static bool wasRightPressed = false;
         static bool wasMiddlePressed = false;
         static Node PickedNode = null;
         public static Vector2 MiddlePressedPisition;
+        static IEnumerator<string> algorithm = null;
 
         static public void CheckKeyActions(Graph graph)
         {
@@ -273,10 +271,14 @@ namespace GraphsMG
             }
             void StartBreadthFirst(Node node)
             {
-                Thread t = new Thread(new ThreadStart(() => {
+                algorithm = SearchAlgorithms.BreadthFirst(graph.GetOrigin(), node.Origin).GetEnumerator();
+                algorithm.MoveNext();
+                Printer.Log.Add(algorithm.Current);
+                /*Thread t = new Thread(new ThreadStart(() => {
                     var algorithm = SearchAlgorithms.BreadthFirst(graph.GetOrigin(), node.Origin).GetEnumerator();
                     while (algorithm.MoveNext())
                     {
+                        Printer.Log.Add(algorithm.Current);
                         Thread.Sleep(1000);
                     }
 
@@ -284,14 +286,18 @@ namespace GraphsMG
                     PickedNode = null;
                     SearchAlgorithms.ResetFlags(graph.GetOrigin());
                 }));
-                t.Start();
+                t.Start();*/
             }
             void StartDepthFirst(Node node)
             {
-                Thread t = new Thread(new ThreadStart(() => {
+                algorithm = SearchAlgorithms.DepthFirst(graph.GetOrigin(), node.Origin).GetEnumerator();
+                algorithm.MoveNext();
+                Printer.Log.Add(algorithm.Current);
+                /*Thread t = new Thread(new ThreadStart(() => {
                     var algorithm = SearchAlgorithms.DepthFirst(graph.GetOrigin(), node.Origin).GetEnumerator();
                     while (algorithm.MoveNext())
                     {
+                        Printer.Log.Add(algorithm.Current);
                         Thread.Sleep(500);
                     }
 
@@ -299,7 +305,7 @@ namespace GraphsMG
                     PickedNode = null;
                     SearchAlgorithms.ResetFlags(graph.GetOrigin());
                 }));
-                t.Start();
+                t.Start();*/
             }
 
             void LeftMouseGetWayActions()
@@ -334,7 +340,27 @@ namespace GraphsMG
         }
         static void PerformKeyActions(Graph graph)
         {
-            //DoActionIfKeyReleased(Keys.G, () => { field.G = field.G == 0 ? 1: 0 ; });
+            DoActionIfKeyReleased(Keys.Space, () =>
+            {
+                if (algorithm != null)
+                {
+                    if (algorithm.MoveNext())
+                    {
+                        Printer.Log.Add(algorithm.Current);
+                    }
+                    else
+                    {
+                        PickedNode = null;
+                        algorithm = null;
+                        SearchAlgorithms.ResetFlags(graph.GetOrigin());
+
+                        if (Menu.Buttons[ButtonType.BreadthFirst].IsActive)
+                            Menu.Buttons[ButtonType.BreadthFirst].Click();
+                        else if (Menu.Buttons[ButtonType.DepthFirst].IsActive)
+                            Menu.Buttons[ButtonType.DepthFirst].Click();
+                    }
+                }
+            });
         }
 
         static void DoActionIfKeyReleased(Keys key, Action Action)

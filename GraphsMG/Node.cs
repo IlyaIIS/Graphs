@@ -15,6 +15,7 @@ namespace GraphsMG
         public bool IsUnderUpdating { get; set; }
         public float Size { get; set; }
         public int Flag { get { return Origin.Flag; } }
+        public int Id { get { return Origin.Id; } }
 
         public Node(GraphsLogic.Node node, Vector2 positon, float size)
         {

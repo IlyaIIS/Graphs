@@ -88,7 +88,7 @@ namespace GraphsMG
             _spriteBatch.Begin();
 
             Printer.DrawTechInf(Graph);
-            Printer.DrawMenu();
+            Printer.DrawMenu(Graph);
 
             _spriteBatch.End();
             

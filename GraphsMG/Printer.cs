@@ -18,6 +18,8 @@ namespace GraphsMG
 
         static public Color[] FlagColors = new Color[4] { Color.Green, Color.Orange, Color.Red, Color.Purple};
 
+        static public List<string> Log = new List<string> { " " };
+
         static public void DrawGraph(SpriteBatch spriteBatch, Graph graph)
         {
             SpriteBatch = spriteBatch;
@@ -90,7 +92,7 @@ namespace GraphsMG
             }
         }
 
-        static public void DrawMenu()
+        static public void DrawMenu(Graph graph)
         {
             foreach (var item in Menu.Buttons)
             {
@@ -102,8 +104,24 @@ namespace GraphsMG
                                 new Vector2(0, 0),
                                 new Vector2(button.Size / texture.Width, button.Size / texture.Height),
                                 SpriteEffects.None, 0);
+            }
 
+            if (Menu.Buttons[ButtonType.BreadthFirst].IsActive || Menu.Buttons[ButtonType.DepthFirst].IsActive || Menu.Buttons[ButtonType.GetWay].IsActive)
+            {
+                StringBuilder activeNodes = new StringBuilder();
+                StringBuilder passedNodes = new StringBuilder();
 
+                foreach (Node node in graph.Nodes)
+                {
+                    if (node.Flag == 1)
+                        activeNodes.Append(node.Id.ToString() + "  ");
+                    else if (node.Flag == 2)
+                        passedNodes.Append(node.Id.ToString() + "  ");
+                }
+
+                SpriteBatch.DrawString(Font, "Active vertices: " + activeNodes.ToString(), new Vector2(20, 600), Color.Black);
+                SpriteBatch.DrawString(Font, "Passed vertices: " + passedNodes.ToString(), new Vector2(20, 620), Color.Black);
+                SpriteBatch.DrawString(Font, "Log: " + Log[^1], new Vector2(20, 640), Color.Black);
             }
         }
 

@@ -6,27 +6,37 @@ namespace GraphsLogic
 {
     public static class SearchAlgorithms
     {
-        public static IEnumerable<bool> BreadthFirst(Graph graph, Node firstNode)
+        public static IEnumerable<string> BreadthFirst(Graph graph, Node firstNode)
         {
             ResetFlags(graph);
+
+            List<string> passedNodes;
+            List<StringBuilder> activatedNodes;
 
             int passedNodesNum = 0;
             int lastPassedNodesNum;
             firstNode.Flag = 1;
-            yield return true;
+            yield return "Beginning of breadth-first search from vertice " + firstNode.Id;
             do
             {
+                passedNodes = new List<string>();
+                activatedNodes = new List<StringBuilder>();
+
                 lastPassedNodesNum = passedNodesNum;
 
                 foreach (Node node in graph.Nodes)
                 {
                     if (node.Flag == 1)
                     {
+                        passedNodes.Add(node.Id.ToString());
+                        activatedNodes.Add(new StringBuilder());
+
                         foreach (Link link in node.Links)
                         {
                             if (link.Node.Flag == 0)
                             {
                                 link.Node.Flag = 3;
+                                activatedNodes[^1].Append(link.Node.Id + " ");
                             }
                         }
 
@@ -41,11 +51,25 @@ namespace GraphsLogic
                         node.Flag = 1;
                 }
 
-                yield return true;
+                StringBuilder log;
+                if (passedNodes.Count > 0)
+                {
+                    log = new StringBuilder("Vertice ");
+                    for (int i = 0; i < passedNodes.Count; i++)
+                    {
+                        log.Append(passedNodes[i] + " spread to " + activatedNodes[i] + "; ");
+                    }
+                }
+                else
+                {
+                    log = new StringBuilder("All available vertices passed");
+                }
+
+                yield return log.ToString();
             } while (passedNodesNum != lastPassedNodesNum);
             yield break;
         }
-        public static IEnumerable<bool> DepthFirst(Graph graph, Node firstNode)
+        public static IEnumerable<string> DepthFirst(Graph graph, Node firstNode)
         {
             ResetFlags(graph);
             Stack<Node> nodes = new Stack<Node>();
@@ -60,7 +84,7 @@ namespace GraphsLogic
                         {
                             if (link.Node.Flag == 0)
                             {
-                                yield return true;
+                                yield return "blabla";
                                 nodes.Push(node);
                                 nodes.Push(link.Node);
                                 break;
@@ -85,7 +109,7 @@ namespace GraphsLogic
                 }
                 else if (nodes.Count > 1)
                     nodes.Pop().Flag = 1;
-                yield return true;
+                yield return "blabla";
             } while (nodes.Count != 0);
             yield break;
         }
