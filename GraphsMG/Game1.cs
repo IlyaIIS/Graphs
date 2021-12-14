@@ -52,7 +52,8 @@ namespace GraphsMG
                 { ButtonType.GetWay, new Texture2D[2] { Content.Load<Texture2D>("ButtonWay1"), Content.Load<Texture2D>("ButtonWay2") } },
                 { ButtonType.Void, new Texture2D[2] { Content.Load<Texture2D>("ButtonVoid"), Content.Load<Texture2D>("ButtonVoid") } },
                 { ButtonType.Minus, new Texture2D[2] { Content.Load<Texture2D>("ButtonMinus"), Content.Load<Texture2D>("ButtonMinus") } },
-                { ButtonType.Plus, new Texture2D[2] { Content.Load<Texture2D>("ButtonPlus"), Content.Load<Texture2D>("ButtonPlus") } }
+                { ButtonType.Plus, new Texture2D[2] { Content.Load<Texture2D>("ButtonPlus"), Content.Load<Texture2D>("ButtonPlus") } },
+                { ButtonType.MaxFlow, new Texture2D[2] { Content.Load<Texture2D>("ButtonMaxFlow1"), Content.Load<Texture2D>("ButtonMaxFlow2") } },
             });
 
             Printer.Font = Content.Load<SpriteFont>("defaultFont");
