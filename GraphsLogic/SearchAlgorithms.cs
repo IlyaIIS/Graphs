@@ -117,11 +117,108 @@ namespace GraphsLogic
         public static void ResetFlags(Graph graph)
         {
             foreach (var node in graph.Nodes)
+            {
                 node.Flag = 0;
+                node.WayLength = int.MaxValue;
+            }
         }
-        public static void GetWay(Graph graph, Node firstNode, Node lastNode)
+        public static IEnumerable<string> GetWay(Graph graph, Node firstNode, Node lastNode)
         {
-            //
+            ResetFlags(graph);
+
+            List<string> passedNodes;
+            List<StringBuilder> activatedNodes;
+
+            int passedNodesNum = 0;
+            int lastPassedNodesNum;
+            firstNode.Flag = 1;
+            lastNode.Flag = 4;
+            firstNode.WayLength = 0;
+            yield return "Beginning of breadth-first search from vertice " + firstNode.Id;
+            do
+            {
+                passedNodes = new List<string>();
+                activatedNodes = new List<StringBuilder>();
+
+                lastPassedNodesNum = passedNodesNum;
+
+                foreach (Node node in graph.Nodes)
+                {
+                    if (node.Flag == 1)
+                    {
+                        passedNodes.Add(node.Id.ToString());
+                        activatedNodes.Add(new StringBuilder());
+
+                        foreach (Link link in node.Links)
+                        {
+                            if (link.Node.WayLength > node.WayLength + link.Value)
+                            {
+                                if (link.Node.Flag != 4)
+                                    link.Node.Flag = 3;
+                                link.Node.WayLength = node.WayLength + link.Value;
+                                link.Node.LastWayNode = node;
+                                activatedNodes[^1].Append(link.Node.Id + " ");
+                            }
+                        }
+
+                        node.Flag = 2;
+                        passedNodesNum++;
+                    }
+                }
+
+                foreach (Node node in graph.Nodes)
+                {
+                    if (node.Flag == 3)
+                        node.Flag = 1;
+                }
+
+                StringBuilder log;
+                if (passedNodes.Count > 0)
+                {
+                    log = new StringBuilder("Vertice ");
+                    for (int i = 0; i < passedNodes.Count; i++)
+                    {
+                        log.Append(passedNodes[i] + " spread to " + activatedNodes[i] + "; ");
+                    }
+                }
+                else
+                {
+                    log = new StringBuilder("All available vertices passed");
+                }
+
+                yield return log.ToString();
+            } while (passedNodesNum != lastPassedNodesNum);
+
+            List<Node> way = new List<Node>() { lastNode };
+            if (lastNode.WayLength == int.MaxValue)
+            {
+                yield return "Way is not found";
+                yield break;
+            }
+            else
+            {
+                StringBuilder log = new StringBuilder("Back way: " + lastNode.Id + " ");
+
+                Node currentNode = lastNode;
+                while(currentNode != firstNode)   
+                {
+                    Node nextNode = currentNode.LastWayNode;
+
+                    nextNode.Flag = 4;
+                    currentNode = nextNode;
+
+                    log.Append(currentNode.Id + " ");
+                    way.Add(currentNode);
+                    yield return log.ToString();
+                }
+            }
+
+            StringBuilder resultLog = new StringBuilder("Way: ");
+            for (int i = way.Count-1; i >= 0 ; i--)
+                resultLog.Append(way[i].Id + " ");
+            yield return resultLog.ToString();
+
+            yield break;
         }
     }
 }

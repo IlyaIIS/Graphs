@@ -274,38 +274,18 @@ namespace GraphsMG
                 algorithm = SearchAlgorithms.BreadthFirst(graph.GetOrigin(), node.Origin).GetEnumerator();
                 algorithm.MoveNext();
                 Printer.Log.Add(algorithm.Current);
-                /*Thread t = new Thread(new ThreadStart(() => {
-                    var algorithm = SearchAlgorithms.BreadthFirst(graph.GetOrigin(), node.Origin).GetEnumerator();
-                    while (algorithm.MoveNext())
-                    {
-                        Printer.Log.Add(algorithm.Current);
-                        Thread.Sleep(1000);
-                    }
-
-                    Menu.Buttons[ButtonType.BreadthFirst].Click();
-                    PickedNode = null;
-                    SearchAlgorithms.ResetFlags(graph.GetOrigin());
-                }));
-                t.Start();*/
             }
             void StartDepthFirst(Node node)
             {
                 algorithm = SearchAlgorithms.DepthFirst(graph.GetOrigin(), node.Origin).GetEnumerator();
                 algorithm.MoveNext();
                 Printer.Log.Add(algorithm.Current);
-                /*Thread t = new Thread(new ThreadStart(() => {
-                    var algorithm = SearchAlgorithms.DepthFirst(graph.GetOrigin(), node.Origin).GetEnumerator();
-                    while (algorithm.MoveNext())
-                    {
-                        Printer.Log.Add(algorithm.Current);
-                        Thread.Sleep(500);
-                    }
-
-                    Menu.Buttons[ButtonType.DepthFirst].Click();
-                    PickedNode = null;
-                    SearchAlgorithms.ResetFlags(graph.GetOrigin());
-                }));
-                t.Start();*/
+            }
+            void StartWaySearch(Node from, Node to)
+            {
+                algorithm = SearchAlgorithms.GetWay(graph.GetOrigin(), from.Origin, to.Origin).GetEnumerator();
+                algorithm.MoveNext();
+                Printer.Log.Add(algorithm.Current);
             }
 
             void LeftMouseGetWayActions()
@@ -318,18 +298,20 @@ namespace GraphsMG
                 {
                     wasLeftPressed = false;
 
-                    if (PickedNode == null)
+                    Node node = GetNodeUnderMouse(graph);
+                    if (node != null)
                     {
-                        SearchAlgorithms.ResetFlags(graph.GetOrigin());
-                        PickedNode = GetNodeUnderMouse(graph);
-                        PickedNode.Origin.Flag = 1;
-                    }
-                    else
-                    {
-                        Node node = GetNodeUnderMouse(graph);
-                        node.Origin.Flag = 3;
-                        SearchAlgorithms.GetWay(graph.GetOrigin(), node.Origin, PickedNode.Origin);
-                        PickedNode = null;
+                        if (PickedNode == null)
+                        {
+                            SearchAlgorithms.ResetFlags(graph.GetOrigin());
+                            PickedNode = node;
+                            PickedNode.Origin.Flag = 1;
+                        }
+                        else
+                        {
+                            StartWaySearch(PickedNode, node);
+                            PickedNode = null;
+                        }
                     }
                 }
             }
@@ -358,6 +340,8 @@ namespace GraphsMG
                             Menu.Buttons[ButtonType.BreadthFirst].Click();
                         else if (Menu.Buttons[ButtonType.DepthFirst].IsActive)
                             Menu.Buttons[ButtonType.DepthFirst].Click();
+                        else if (Menu.Buttons[ButtonType.GetWay].IsActive)
+                            Menu.Buttons[ButtonType.GetWay].Click();
                     }
                 }
             });
