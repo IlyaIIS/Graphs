@@ -47,7 +47,8 @@ namespace GraphsMG
                                 new Vector2(graph.NodeSize / NodeSp.Width, graph.NodeSize / NodeSp.Height),
                                 SpriteEffects.None, 0);
 
-                SpriteBatch.DrawString(Font, node.Origin.Id.ToString(), new Vector2(node.Position.X - node.Size/5, node.Position.Y - node.Size / 2 + 2), Color.Black);
+                if (Menu.Buttons[ButtonType.ShowingNames].IsActive)
+                    SpriteBatch.DrawString(Font, node.Origin.Id.ToString(), new Vector2(node.Position.X - node.Size/5, node.Position.Y - node.Size / 2 + 2), Color.Black);
             }
 
             //инфа от тайла под курсором
@@ -95,13 +96,16 @@ namespace GraphsMG
         }
         static void DrawEdgesValues(Graph graph)
         {
-            foreach (Node node in graph.Nodes)
+            if (Menu.Buttons[ButtonType.ShowingValues].IsActive)
             {
-                foreach (Line line in node.Lines)
+                foreach (Node node in graph.Nodes)
                 {
-                    float x = node.Position.X + line.Length * (float)Math.Cos(line.Angle);
-                    float y = node.Position.Y + line.Length * (float)Math.Sin(line.Angle);
-                    SpriteBatch.DrawString(EdgeFont, line.Value.ToString(), new Vector2(x, y), Color.Black);
+                    foreach (Line line in node.Lines)
+                    {
+                        float x = node.Position.X + line.Length * (float)Math.Cos(line.Angle);
+                        float y = node.Position.Y + line.Length * (float)Math.Sin(line.Angle);
+                        SpriteBatch.DrawString(EdgeFont, line.Value.ToString(), new Vector2(x, y), Color.Black);
+                    }
                 }
             }
         }

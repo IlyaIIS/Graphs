@@ -121,6 +121,54 @@
 /processorParam:TextureFormat=Color
 /build:../Textures/Buttons/ButtonSave.png;ButtonSave.png
 
+#begin ../Textures/Buttons/ButtonShowNames1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Textures/Buttons/ButtonShowNames1.png;ButtonShowNames1.png
+
+#begin ../Textures/Buttons/ButtonShowNames2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Textures/Buttons/ButtonShowNames2.png;ButtonShowNames2.png
+
+#begin ../Textures/Buttons/ButtonShowValues1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Textures/Buttons/ButtonShowValues1.png;ButtonShowValues1.png
+
+#begin ../Textures/Buttons/ButtonShowValues2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Textures/Buttons/ButtonShowValues2.png;ButtonShowValues2.png
+
 #begin ../Textures/Buttons/ButtonSpread1.png
 /importer:TextureImporter
 /processor:TextureProcessor
