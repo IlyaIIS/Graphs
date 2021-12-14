@@ -17,6 +17,7 @@ namespace GraphsMG
         static Dictionary<Keys, bool> wasKeyPressed = new Dictionary<Keys, bool>()
         {
             { Keys.Space, false},
+            { Keys.Escape, false},
         };
         static bool wasLeftPressed = false;
         static bool wasRightPressed = false;
@@ -68,7 +69,7 @@ namespace GraphsMG
             }
             else
             {
-                if (!Menu.Buttons[ButtonType.BreadthFirst].IsActive && !Menu.Buttons[ButtonType.DepthFirst].IsActive && !Menu.Buttons[ButtonType.GetWay].IsActive)
+                if (!Menu.Buttons[ButtonType.BreadthFirst].IsActive && !Menu.Buttons[ButtonType.DepthFirst].IsActive && !Menu.Buttons[ButtonType.GetWay].IsActive && !Menu.Buttons[ButtonType.MaxFlow].IsActive)
                     LeftMouseButtonClickActions();
             }
 
@@ -303,7 +304,7 @@ namespace GraphsMG
                     wasLeftPressed = false;
 
                     Node node = GetNodeUnderMouse(graph);
-                    if (node != null)
+                    if (node != null && algorithm == null)
                     {
                         if (PickedNode == null)
                         {
@@ -328,21 +329,23 @@ namespace GraphsMG
                 else if (wasLeftPressed && mouseState.LeftButton == ButtonState.Released)
                 {
                     wasLeftPressed = false;
-
-                    if (PickedNode == null)
+                    Node node = GetNodeUnderMouse(graph);
+                    if (node != null && algorithm == null)
                     {
-                        SearchAlgorithms.ResetFlags(graph.GetOrigin());
-                        PickedNode = GetNodeUnderMouse(graph);
-                        PickedNode.Origin.Flag = 1;
-                    }
-                    else
-                    {
-                        Node node = GetNodeUnderMouse(graph);
-                        node.Origin.Flag = 3;
-                        algorithm = SearchAlgorithms.MaximumFlow(graph.GetOrigin(), PickedNode.Origin, node.Origin).GetEnumerator();
-                        algorithm.MoveNext();
-                        Printer.Log.Add(algorithm.Current);
-                        PickedNode = null;
+                        if (PickedNode == null)
+                        {
+                            SearchAlgorithms.ResetFlags(graph.GetOrigin());
+                            PickedNode = node;
+                            PickedNode.Origin.Flag = 1;
+                        }
+                        else
+                        {
+                            node.Origin.Flag = 3;
+                            algorithm = SearchAlgorithms.MaximumFlow(graph.GetOrigin(), PickedNode.Origin, node.Origin).GetEnumerator();
+                            algorithm.MoveNext();
+                            Printer.Log.Add(algorithm.Current);
+                            PickedNode = null;
+                        }
                     }
                 }
             }
@@ -363,19 +366,31 @@ namespace GraphsMG
                     }
                     else
                     {
-                        PickedNode = null;
-                        algorithm = null;
-                        SearchAlgorithms.ResetFlags(graph.GetOrigin());
-
-                        if (Menu.Buttons[ButtonType.BreadthFirst].IsActive)
-                            Menu.Buttons[ButtonType.BreadthFirst].Click();
-                        else if (Menu.Buttons[ButtonType.DepthFirst].IsActive)
-                            Menu.Buttons[ButtonType.DepthFirst].Click();
-                        else if (Menu.Buttons[ButtonType.GetWay].IsActive)
-                            Menu.Buttons[ButtonType.GetWay].Click();
+                        ResetAlgorithm(graph);
                     }
                 }
             });
+
+            DoActionIfKeyReleased(Keys.Escape, () =>
+            {
+                    ResetAlgorithm(graph);
+            });
+        }
+
+        static void ResetAlgorithm(Graph graph)
+        {
+            PickedNode = null;
+            algorithm = null;
+            SearchAlgorithms.ResetFlags(graph.GetOrigin());
+
+            if (Menu.Buttons[ButtonType.BreadthFirst].IsActive)
+                Menu.Buttons[ButtonType.BreadthFirst].Click();
+            else if (Menu.Buttons[ButtonType.DepthFirst].IsActive)
+                Menu.Buttons[ButtonType.DepthFirst].Click();
+            else if (Menu.Buttons[ButtonType.GetWay].IsActive)
+                Menu.Buttons[ButtonType.GetWay].Click();
+            else if (Menu.Buttons[ButtonType.MaxFlow].IsActive)
+                Menu.Buttons[ButtonType.MaxFlow].Click();
         }
 
         static void DoActionIfKeyReleased(Keys key, Action Action)

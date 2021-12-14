@@ -255,9 +255,9 @@ namespace GraphsLogic
                     else
                         break;
                 }
-                string log = "way:";
+                string log = "way: ";
                 foreach (var item in way)
-                    log += item.Id.ToString();
+                    log += item.Id.ToString() + " ";
                 yield return log;
                 if(currentNode == lastNode) //вычитаем поток
                 {
