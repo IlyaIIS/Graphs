@@ -7,11 +7,6 @@ namespace GraphsLogic
     public class Graph
     {
         public List<Node> Nodes { get; } = new List<Node>();
-
-        public Graph()
-        {
-
-        }
         public void AddNode(Node node)
         {
             Nodes.Add(node);

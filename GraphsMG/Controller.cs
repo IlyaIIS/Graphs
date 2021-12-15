@@ -44,15 +44,15 @@ namespace GraphsMG
 
             if (button == null)
             {
-                if (Menu.Buttons[ButtonType.BreadthFirst].IsActive || Menu.Buttons[ButtonType.DepthFirst].IsActive)
+                if (Menu.Buttons[ButtonType.BreadthingFirst].IsActive || Menu.Buttons[ButtonType.DepthingFirst].IsActive)
                 {
                     LeftMouseAlgorithmsActions();
                 }
-                else if (Menu.Buttons[ButtonType.GetWay].IsActive)
+                else if (Menu.Buttons[ButtonType.GettingWay].IsActive)
                 {
                     LeftMouseGetWayActions();
                 }
-                else if(Menu.Buttons[ButtonType.MaxFlow].IsActive)
+                else if(Menu.Buttons[ButtonType.GettingMaxFlow].IsActive)
                 {
                     LeftMouseMaxFlowActions();
                 }
@@ -69,7 +69,7 @@ namespace GraphsMG
             }
             else
             {
-                if (!Menu.Buttons[ButtonType.BreadthFirst].IsActive && !Menu.Buttons[ButtonType.DepthFirst].IsActive && !Menu.Buttons[ButtonType.GetWay].IsActive && !Menu.Buttons[ButtonType.MaxFlow].IsActive)
+                if (!Menu.Buttons[ButtonType.BreadthingFirst].IsActive && !Menu.Buttons[ButtonType.DepthingFirst].IsActive && !Menu.Buttons[ButtonType.GettingWay].IsActive && !Menu.Buttons[ButtonType.GettingMaxFlow].IsActive)
                     LeftMouseButtonClickActions();
             }
 
@@ -266,9 +266,9 @@ namespace GraphsMG
                         PickedNode = node;
                         if (node != null)
                         {
-                            if (Menu.Buttons[ButtonType.BreadthFirst].IsActive)
+                            if (Menu.Buttons[ButtonType.BreadthingFirst].IsActive)
                                 StartBreadthFirst(node);
-                            else if (Menu.Buttons[ButtonType.DepthFirst].IsActive)
+                            else if (Menu.Buttons[ButtonType.DepthingFirst].IsActive)
                                 StartDepthFirst(node);
                         }
                     }
@@ -383,14 +383,14 @@ namespace GraphsMG
             algorithm = null;
             SearchAlgorithms.ResetFlags(graph.GetOrigin());
 
-            if (Menu.Buttons[ButtonType.BreadthFirst].IsActive)
-                Menu.Buttons[ButtonType.BreadthFirst].Click();
-            else if (Menu.Buttons[ButtonType.DepthFirst].IsActive)
-                Menu.Buttons[ButtonType.DepthFirst].Click();
-            else if (Menu.Buttons[ButtonType.GetWay].IsActive)
-                Menu.Buttons[ButtonType.GetWay].Click();
-            else if (Menu.Buttons[ButtonType.MaxFlow].IsActive)
-                Menu.Buttons[ButtonType.MaxFlow].Click();
+            if (Menu.Buttons[ButtonType.BreadthingFirst].IsActive)
+                Menu.Buttons[ButtonType.BreadthingFirst].Click();
+            else if (Menu.Buttons[ButtonType.DepthingFirst].IsActive)
+                Menu.Buttons[ButtonType.DepthingFirst].Click();
+            else if (Menu.Buttons[ButtonType.GettingWay].IsActive)
+                Menu.Buttons[ButtonType.GettingWay].Click();
+            else if (Menu.Buttons[ButtonType.GettingMaxFlow].IsActive)
+                Menu.Buttons[ButtonType.GettingMaxFlow].Click();
         }
 
         static void DoActionIfKeyReleased(Keys key, Action Action)

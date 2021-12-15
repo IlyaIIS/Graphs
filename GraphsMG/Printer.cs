@@ -35,7 +35,7 @@ namespace GraphsMG
             foreach (Node node in graph.Nodes)
             {
                 Color color;
-                if (Menu.Buttons[ButtonType.BreadthFirst].IsActive || Menu.Buttons[ButtonType.DepthFirst].IsActive || Menu.Buttons[ButtonType.MaxFlow].IsActive || Menu.Buttons[ButtonType.GetWay].IsActive)
+                if (Menu.Buttons[ButtonType.BreadthingFirst].IsActive || Menu.Buttons[ButtonType.DepthingFirst].IsActive || Menu.Buttons[ButtonType.GettingMaxFlow].IsActive || Menu.Buttons[ButtonType.GettingWay].IsActive)
                     color = FlagColors[node.Flag];
                 else
                     color = Color.White;
@@ -124,7 +124,7 @@ namespace GraphsMG
                                 SpriteEffects.None, 0);
             }
 
-            if (Menu.Buttons[ButtonType.BreadthFirst].IsActive || Menu.Buttons[ButtonType.DepthFirst].IsActive || Menu.Buttons[ButtonType.MaxFlow].IsActive || Menu.Buttons[ButtonType.GetWay].IsActive)
+            if (Menu.Buttons[ButtonType.BreadthingFirst].IsActive || Menu.Buttons[ButtonType.DepthingFirst].IsActive || Menu.Buttons[ButtonType.GettingMaxFlow].IsActive || Menu.Buttons[ButtonType.GettingWay].IsActive)
             {
                 StringBuilder activeNodes = new StringBuilder();
                 StringBuilder passedNodes = new StringBuilder();

@@ -41,19 +41,19 @@ namespace GraphsMG
             Printer.LineSp = Content.Load<Texture2D>("Point");
             Printer.ArrowSp = Content.Load<Texture2D>("Arrow");
 
-            Menu.Initialize(Graph, new Dictionary<ButtonType , Texture2D[]> {
+            Menu.Initialize(Graph, Camera, new Dictionary<ButtonType , Texture2D[]> {
                 { ButtonType.LineType, new Texture2D[2] { Content.Load<Texture2D>("ButtonLink1"), Content.Load<Texture2D>("ButtonLink2") } },
                 { ButtonType.Removing, new Texture2D[2] { Content.Load<Texture2D>("ButtonRemove1"), Content.Load<Texture2D>("ButtonRemove2") } },
                 { ButtonType.Saving, new Texture2D[2] { Content.Load<Texture2D>("ButtonSave"), Content.Load<Texture2D>("ButtonSave") } },
                 { ButtonType.Loading, new Texture2D[2] { Content.Load<Texture2D>("ButtonLoad"), Content.Load<Texture2D>("ButtonLoad") } },
                 { ButtonType.Spreading, new Texture2D[2] { Content.Load<Texture2D>("ButtonSpread1"), Content.Load<Texture2D>("ButtonSpread2") } },
-                { ButtonType.DepthFirst, new Texture2D[2] { Content.Load<Texture2D>("ButtonDepthFirst1"), Content.Load<Texture2D>("ButtonDepthFirst2") } },
-                { ButtonType.BreadthFirst, new Texture2D[2] { Content.Load<Texture2D>("ButtonBreadthFirst1"), Content.Load<Texture2D>("ButtonBreadthFirst2") } },
-                { ButtonType.GetWay, new Texture2D[2] { Content.Load<Texture2D>("ButtonWay1"), Content.Load<Texture2D>("ButtonWay2") } },
+                { ButtonType.DepthingFirst, new Texture2D[2] { Content.Load<Texture2D>("ButtonDepthFirst1"), Content.Load<Texture2D>("ButtonDepthFirst2") } },
+                { ButtonType.BreadthingFirst, new Texture2D[2] { Content.Load<Texture2D>("ButtonBreadthFirst1"), Content.Load<Texture2D>("ButtonBreadthFirst2") } },
+                { ButtonType.GettingWay, new Texture2D[2] { Content.Load<Texture2D>("ButtonWay1"), Content.Load<Texture2D>("ButtonWay2") } },
                 { ButtonType.Void, new Texture2D[2] { Content.Load<Texture2D>("ButtonVoid"), Content.Load<Texture2D>("ButtonVoid") } },
                 { ButtonType.Minus, new Texture2D[2] { Content.Load<Texture2D>("ButtonMinus"), Content.Load<Texture2D>("ButtonMinus") } },
                 { ButtonType.Plus, new Texture2D[2] { Content.Load<Texture2D>("ButtonPlus"), Content.Load<Texture2D>("ButtonPlus") } },
-                { ButtonType.MaxFlow, new Texture2D[2] { Content.Load<Texture2D>("ButtonMaxFlow1"), Content.Load<Texture2D>("ButtonMaxFlow2") } },
+                { ButtonType.GettingMaxFlow, new Texture2D[2] { Content.Load<Texture2D>("ButtonMaxFlow1"), Content.Load<Texture2D>("ButtonMaxFlow2") } },
                 { ButtonType.ShowingNames, new Texture2D[2] { Content.Load<Texture2D>("ButtonShowNames1"), Content.Load<Texture2D>("ButtonShowNames2") } },
                 { ButtonType.ShowingValues, new Texture2D[2] { Content.Load<Texture2D>("ButtonShowValues1"), Content.Load<Texture2D>("ButtonShowValues2") } },
             });
