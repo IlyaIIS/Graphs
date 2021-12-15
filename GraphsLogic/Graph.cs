@@ -21,14 +21,24 @@ namespace GraphsLogic
         public void RemoveNode(Node node)
         {
             Nodes.Remove(node);
+            node.Links.Clear();
 
-            foreach (Link link in node.Links)
+            foreach (Node subNode in Nodes)
             {
-                Node neig = link.Node;
-                RemoveLink(neig, node);
+                foreach (Link link in subNode.Links)
+                {
+                    if (link.Node == node)
+                    {
+                        RemoveLink(subNode, node);
+                        break;
+                    }
+                }
             }
 
-            node.Links.Clear();
+            for (int i = 0; i < Nodes.Count; i++)
+            {
+                Nodes[i].Id = i;
+            }
         }
         public void RemoveLink(Node from, Node to, bool bothDirections = false)
         {

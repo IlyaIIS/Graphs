@@ -10,6 +10,7 @@ namespace GraphsMG
     static class Menu
     {
         public static int Value = 1;
+        public static int maxId = 0;
         public static Dictionary<ButtonType, Button> Buttons { get; set; } = new Dictionary<ButtonType, Button>();
 
         public static void Initialize(Graph graph, Camera cam, Dictionary<ButtonType, Texture2D[]> textures)

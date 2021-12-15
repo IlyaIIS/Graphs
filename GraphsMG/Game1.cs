@@ -28,7 +28,6 @@ namespace GraphsMG
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
             Graph = new Graph();
             base.Initialize();
         }
@@ -93,7 +92,6 @@ namespace GraphsMG
 
             _spriteBatch.Begin();
 
-            Printer.DrawTechInf(Graph);
             Printer.DrawMenu(Graph);
 
             _spriteBatch.End();

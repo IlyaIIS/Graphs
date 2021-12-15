@@ -9,28 +9,24 @@ namespace GraphsMG
 {
     class Graph
     {
-        private GraphsLogic.Graph origin;
+        public GraphsLogic.Graph Origin { get; private set; }
         public List<Node> Nodes = new List<Node>();
         public float NodeSize { get; } = 20;
 
         public Graph()
         {
-            origin = new GraphsLogic.Graph();
+            Origin = new GraphsLogic.Graph();
         }
 
         public void AddNode(Vector2 position)
         {
-            GraphsLogic.Node newNode = new GraphsLogic.Node(origin.Nodes.Count);
-            origin.AddNode(newNode);
+            GraphsLogic.Node newNode = new GraphsLogic.Node(Origin.Nodes.Count);
+            Origin.AddNode(newNode);
             Nodes.Add(new Node(newNode, position, NodeSize));
-        }
-        public GraphsLogic.Graph GetOrigin()
-        {
-            return origin;
         }
         public void AddLink(Node firstNode, Node secondNode, bool isBiderectional, int value = 1)
         {
-            origin.AddLink(firstNode.Origin, secondNode.Origin, value, isBiderectional ? LinkType.Bidirectional : LinkType.Unidirectional);
+            Origin.AddLink(firstNode.Origin, secondNode.Origin, value, isBiderectional ? LinkType.Bidirectional : LinkType.Unidirectional);
             firstNode.Lines.Add(new Line(firstNode, secondNode, value));
             if (isBiderectional)
                 secondNode.Lines.Add(new Line(secondNode, firstNode, value));
@@ -40,11 +36,6 @@ namespace GraphsMG
         {
             Nodes.Remove(node);
             node.Lines.Clear();
-
-            for (int i = 0; i < node.Lines.Count; )
-            {
-                RemoveLine(node, node.Lines[i].To);
-            }
 
             foreach(Node subNode in Nodes)
             {
@@ -58,7 +49,7 @@ namespace GraphsMG
                 }
             }
 
-            origin.RemoveNode(node.Origin);
+            Origin.RemoveNode(node.Origin);
         }
 
         public void RemoveLine(Node from, Node to, bool bothDirections = false)
@@ -71,7 +62,7 @@ namespace GraphsMG
                     break;
                 }
             }
-            origin.RemoveLink(from.Origin, to.Origin);
+            Origin.RemoveLink(from.Origin, to.Origin);
 
             if (bothDirections)
                 RemoveLine(to, from);
@@ -79,7 +70,7 @@ namespace GraphsMG
 
         public void Save(string path)
         {
-            CsvMatrix.SaveGraph(origin, path);
+            CsvMatrix.SaveGraph(Origin, path);
         }
 
         public void Load(string path)
@@ -91,19 +82,19 @@ namespace GraphsMG
         public void Update(GraphsLogic.Graph graph)
         {
             Nodes = new List<Node>();
-            origin = graph;
+            Origin = graph;
             Random rnd = new Random();
 
-            int lineLenght = (int)Math.Floor(Math.Sqrt(origin.Nodes.Count) +1);
-            for (int i = 0; i < origin.Nodes.Count; i++)
+            int lineLenght = (int)Math.Floor(Math.Sqrt(Origin.Nodes.Count) +1);
+            for (int i = 0; i < Origin.Nodes.Count; i++)
             {
-                GraphsLogic.Node originNode = origin.Nodes[i];
+                GraphsLogic.Node originNode = Origin.Nodes[i];
                 Nodes.Add(new Node(originNode, new Vector2((float)(NodeSize * 3 * (i % lineLenght) + rnd.Next((int)NodeSize*2)-NodeSize), (float)(NodeSize * 3 * (i / lineLenght) + rnd.Next((int)NodeSize*2) - NodeSize)), NodeSize));
             }
 
-            for (int i = 0; i < origin.Nodes.Count; i++)
+            for (int i = 0; i < Origin.Nodes.Count; i++)
             {
-                GraphsLogic.Node originNode = origin.Nodes[i];
+                GraphsLogic.Node originNode = Origin.Nodes[i];
                 foreach(Link link in originNode.Links)
                 {
                     Node toNode = GetNodeByOriginNode(link.Node);

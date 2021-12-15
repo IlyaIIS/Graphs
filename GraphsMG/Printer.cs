@@ -48,17 +48,7 @@ namespace GraphsMG
                                 SpriteEffects.None, 0);
 
                 if (Menu.Buttons[ButtonType.ShowingNames].IsActive)
-                    SpriteBatch.DrawString(Font, node.Origin.Id.ToString(), new Vector2(node.Position.X - node.Size/5, node.Position.Y - node.Size / 2 + 2), Color.Black);
-            }
-
-            //инфа от тайла под курсором
-            {
-                MouseState mouse = Mouse.GetState();
-                //Tile tile = field.GetTileFromCoord(mouse.X + Controller.Cam.Pos.X - Controller.Cam.ViewportWidth/2, mouse.Y + Controller.Cam.Pos.Y - Controller.Cam.ViewportHeight / 2);
-
-                //SpriteBatch.DrawString(Font2, Math.Round(tile.Altitude).ToString(), new Vector2((float)tile.X, (float)tile.Y), Color.Black);
-                //SpriteBatch.DrawString(Font2, tile.Resources[0].Type.ToString().Substring(0, 3), new Vector2((float)tile.X, (float)tile.Y), Color.Black);
-                //SpriteBatch.DrawString(Font2, tile.alt.ToString(), new Vector2((float)tile.X, (float)tile.Y), Color.Black);
+                    SpriteBatch.DrawString(Font, node.Origin.Id.ToString(), new Vector2(node.Position.X - (node.Size/5)* node.Origin.Id.ToString().Length, node.Position.Y - node.Size / 2 + 2), Color.Black);
             }
         }
         static void DrawEdges(Graph graph)
@@ -146,17 +136,6 @@ namespace GraphsMG
                 Button button = Menu.Buttons[ButtonType.Void];
                 SpriteBatch.DrawString(Font, Menu.Value.ToString(), new Vector2(button.Position.X + button.Size.X/2 - 5*Menu.Value.ToString().Length, button.Position.Y + button.Size.Y / 4), Color.Black);
             }
-        }
-
-        static public void DrawTechInf(Graph graph)
-        {
-            MouseState mouse = Mouse.GetState();
-            //Tile tile = Map.GetTileFromCoord(mouse.X, mouse.Y );
-
-            //SpriteBatch.DrawString(Font2, tile.Altitude.ToString(), new Vector2((float)tile.X, (float)(tile.Y)), Color.Black);
-            //SpriteBatch.DrawString(Font, mouse.X + " " + mouse.Y, new Vector2(mouse.X, mouse.Y - 20), Color.Black);
-            //SpriteBatch.DrawString(Font2, Controller.Cam._pos.X + " " + Controller.Cam._pos.Y, new Vector2(mouse.X, mouse.Y - 20), Color.Black);
-
         }
     }
 }

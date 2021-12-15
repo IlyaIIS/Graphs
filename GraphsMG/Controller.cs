@@ -3,8 +3,6 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using GraphsLogic;
-using System.Text;
-using System.Threading;
 
 namespace GraphsMG
 {
@@ -276,19 +274,19 @@ namespace GraphsMG
             }
             void StartBreadthFirst(Node node)
             {
-                algorithm = SearchAlgorithms.BreadthFirst(graph.GetOrigin(), node.Origin).GetEnumerator();
+                algorithm = SearchAlgorithms.BreadthFirst(graph.Origin, node.Origin).GetEnumerator();
                 algorithm.MoveNext();
                 Printer.Log.Add(algorithm.Current);
             }
             void StartDepthFirst(Node node)
             {
-                algorithm = SearchAlgorithms.DepthFirst(graph.GetOrigin(), node.Origin).GetEnumerator();
+                algorithm = SearchAlgorithms.DepthFirst(graph.Origin, node.Origin).GetEnumerator();
                 algorithm.MoveNext();
                 Printer.Log.Add(algorithm.Current);
             }
             void StartWaySearch(Node from, Node to)
             {
-                algorithm = SearchAlgorithms.GetWay(graph.GetOrigin(), from.Origin, to.Origin).GetEnumerator();
+                algorithm = SearchAlgorithms.GetWay(graph.Origin, from.Origin, to.Origin).GetEnumerator();
                 algorithm.MoveNext();
                 Printer.Log.Add(algorithm.Current);
             }
@@ -308,7 +306,7 @@ namespace GraphsMG
                     {
                         if (PickedNode == null)
                         {
-                            SearchAlgorithms.ResetFlags(graph.GetOrigin());
+                            SearchAlgorithms.ResetFlags(graph.Origin);
                             PickedNode = node;
                             PickedNode.Origin.Flag = 1;
                         }
@@ -334,14 +332,14 @@ namespace GraphsMG
                     {
                         if (PickedNode == null)
                         {
-                            SearchAlgorithms.ResetFlags(graph.GetOrigin());
+                            SearchAlgorithms.ResetFlags(graph.Origin);
                             PickedNode = node;
                             PickedNode.Origin.Flag = 1;
                         }
                         else
                         {
                             node.Origin.Flag = 3;
-                            algorithm = SearchAlgorithms.MaximumFlow(graph.GetOrigin(), PickedNode.Origin, node.Origin).GetEnumerator();
+                            algorithm = SearchAlgorithms.MaximumFlow(graph.Origin, PickedNode.Origin, node.Origin).GetEnumerator();
                             algorithm.MoveNext();
                             Printer.Log.Add(algorithm.Current);
                             PickedNode = null;
@@ -373,7 +371,7 @@ namespace GraphsMG
 
             DoActionIfKeyReleased(Keys.Escape, () =>
             {
-                    ResetAlgorithm(graph);
+                ResetAlgorithm(graph);
             });
         }
 
@@ -381,7 +379,7 @@ namespace GraphsMG
         {
             PickedNode = null;
             algorithm = null;
-            SearchAlgorithms.ResetFlags(graph.GetOrigin());
+            SearchAlgorithms.ResetFlags(graph.Origin);
 
             if (Menu.Buttons[ButtonType.BreadthingFirst].IsActive)
                 Menu.Buttons[ButtonType.BreadthingFirst].Click();
@@ -431,7 +429,6 @@ namespace GraphsMG
 
             preMouseScroll = mouseState.ScrollWheelValue;
         }
-
 
         static public Node GetNodeUnderMouse(Graph graph)
         {
