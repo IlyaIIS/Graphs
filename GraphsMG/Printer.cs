@@ -17,7 +17,7 @@ namespace GraphsMG
         static public SpriteFont Font { get; set; }
         static public SpriteFont EdgeFont { get; set; }
 
-        static public Color[] FlagColors = new Color[5] { Color.Green, Color.Orange, Color.Red, Color.Purple, Color.Yellow};
+        static public Color[] FlagColors = new Color[4] { Color.Green, Color.Orange, Color.Red, Color.Yellow};
 
         static public List<string> Log = new List<string> { " " };
 

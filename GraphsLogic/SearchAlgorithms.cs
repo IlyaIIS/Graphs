@@ -11,63 +11,54 @@ namespace GraphsLogic
         {
             ResetFlags(graph);
 
-            List<string> passedNodes;
-            List<StringBuilder> activatedNodes;
+            List<string> passedNodesForLog;
+            List<StringBuilder> activatedNodesForLog;
 
-            int passedNodesNum = 0;
-            int lastPassedNodesNum;
+            Stack<Node> activeNodes;
+            Stack<Node> newActiveNodes = new Stack<Node>();
             firstNode.Flag = 1;
+            newActiveNodes.Push(firstNode);
             yield return "Beginning of breadth-first search from vertice " + firstNode.Id;
             do
             {
-                passedNodes = new List<string>();
-                activatedNodes = new List<StringBuilder>();
+                activeNodes = newActiveNodes;
+                newActiveNodes = new Stack<Node>();
 
-                lastPassedNodesNum = passedNodesNum;
+                passedNodesForLog = new List<string>();
+                activatedNodesForLog = new List<StringBuilder>();
 
-                foreach (Node node in graph.Nodes)
+                while (activeNodes.Count > 0)
                 {
-                    if (node.Flag == 1)
-                    {
-                        passedNodes.Add(node.Id.ToString());
-                        activatedNodes.Add(new StringBuilder());
+                    Node node = activeNodes.Pop();
 
-                        foreach (Link link in node.Links)
+                    passedNodesForLog.Add(node.Id.ToString());
+                    activatedNodesForLog.Add(new StringBuilder());
+
+                    foreach (Link link in node.Links)
+                    {
+                        if (link.Node.Flag == 0)
                         {
-                            if (link.Node.Flag == 0)
-                            {
-                                link.Node.Flag = 3;
-                                activatedNodes[^1].Append(link.Node.Id + " ");
-                            }
+                            link.Node.Flag = 1;
+                            activatedNodesForLog[^1].Append(link.Node.Id + " ");
+                            newActiveNodes.Push(link.Node);
                         }
-
-                        node.Flag = 2;
-                        passedNodesNum++;
                     }
+
+                    node.Flag = 2;
                 }
 
-                foreach(Node node in graph.Nodes)
+                StringBuilder log = new StringBuilder("Vertice ");
+                for (int i = 0; i < passedNodesForLog.Count; i++)
                 {
-                    if (node.Flag == 3)
-                        node.Flag = 1;
+                    if (activatedNodesForLog[i].Length > 0)
+                        log.Append(passedNodesForLog[i] + " spread to " + activatedNodesForLog[i].Remove(activatedNodesForLog[i].Length - 1, 1) + "; ");
+                    else
+                        log.Append(passedNodesForLog[i] + " end of spreading; ");
                 }
 
-                StringBuilder log;
-                if (passedNodes.Count > 0)
-                {
-                    log = new StringBuilder("Vertice ");
-                    for (int i = 0; i < passedNodes.Count; i++)
-                    {
-                        log.Append(passedNodes[i] + " spread to " + activatedNodes[i] + "; ");
-                    }
-                }
-                else
-                {
-                    log = new StringBuilder("All available vertices passed");
-                }
-
-                yield return log.ToString();
-            } while (passedNodesNum != lastPassedNodesNum);
+                yield return log.ToString().Substring(0, log.Length - 2);
+            } while (newActiveNodes.Count > 0);
+            yield return "All available vertices passed";
             yield break;
         }
         public static IEnumerable<string> DepthFirst(Graph graph, Node firstNode)
@@ -130,68 +121,61 @@ namespace GraphsLogic
         {
             ResetFlags(graph);
 
-            List<string> passedNodes;
-            List<StringBuilder> activatedNodes;
+            List<string> passedNodesForLog;
+            List<StringBuilder> activatedNodesForLog;
 
-            int passedNodesNum = 0;
-            int lastPassedNodesNum;
             firstNode.Flag = 1;
-            lastNode.Flag = 4;
+            lastNode.Flag = 3;
             firstNode.WayLength = 0;
+            Stack<Node> activeNodes;
+            Stack<Node> newActiveNodes = new Stack<Node>();
+            newActiveNodes.Push(firstNode);
             yield return "Beginning of breadth-first search from vertice " + firstNode.Id;
             do
             {
-                passedNodes = new List<string>();
-                activatedNodes = new List<StringBuilder>();
+                activeNodes = newActiveNodes;
+                newActiveNodes = new Stack<Node>();
 
-                lastPassedNodesNum = passedNodesNum;
+                passedNodesForLog = new List<string>();
+                activatedNodesForLog = new List<StringBuilder>();
 
-                foreach (Node node in graph.Nodes)
+                while (activeNodes.Count > 0)
                 {
-                    if (node.Flag == 1)
-                    {
-                        passedNodes.Add(node.Id.ToString());
-                        activatedNodes.Add(new StringBuilder());
+                    Node node = activeNodes.Pop();
 
-                        foreach (Link link in node.Links)
+                    passedNodesForLog.Add(node.Id.ToString());
+                    activatedNodesForLog.Add(new StringBuilder());
+
+                    foreach (Link link in node.Links)
+                    {
+                        if (link.Node.WayLength > node.WayLength + link.Value)
                         {
-                            if (link.Node.WayLength > node.WayLength + link.Value)
+                            if (link.Node.Flag != 3)
                             {
-                                if (link.Node.Flag != 4)
-                                    link.Node.Flag = 3;
-                                link.Node.WayLength = node.WayLength + link.Value;
-                                link.Node.LastWayNode = node;
-                                activatedNodes[^1].Append(link.Node.Id + " ");
+                                link.Node.Flag = 1;
+                                newActiveNodes.Push(link.Node);
                             }
+                            link.Node.WayLength = node.WayLength + link.Value;
+                            link.Node.LastWayNode = node;
+                            activatedNodesForLog[^1].Append(link.Node.Id + " ");
                         }
-
-                        node.Flag = 2;
-                        passedNodesNum++;
                     }
+
+                    node.Flag = 2;
                 }
 
-                foreach (Node node in graph.Nodes)
+                StringBuilder log = new StringBuilder("Vertice ");
+                for (int i = 0; i < passedNodesForLog.Count; i++)
                 {
-                    if (node.Flag == 3)
-                        node.Flag = 1;
+                    if (activatedNodesForLog[i].Length > 0)
+                        log.Append(passedNodesForLog[i] + " spread to " + activatedNodesForLog[i].Remove(activatedNodesForLog[i].Length - 1, 1) + "; ");
+                    else
+                        log.Append(passedNodesForLog[i] + " end of spreading; ");
                 }
 
-                StringBuilder log;
-                if (passedNodes.Count > 0)
-                {
-                    log = new StringBuilder("Vertice ");
-                    for (int i = 0; i < passedNodes.Count; i++)
-                    {
-                        log.Append(passedNodes[i] + " spread to " + activatedNodes[i] + "; ");
-                    }
-                }
-                else
-                {
-                    log = new StringBuilder("All available vertices passed");
-                }
-
-                yield return log.ToString();
-            } while (passedNodesNum != lastPassedNodesNum);
+                yield return log.ToString().Substring(0, log.Length - 2);
+            } while (newActiveNodes.Count > 0);
+            yield return "All available vertices passed";
 
             List<Node> way = new List<Node>() { lastNode };
             if (lastNode.WayLength == int.MaxValue)
@@ -208,7 +192,7 @@ namespace GraphsLogic
                 {
                     Node nextNode = currentNode.LastWayNode;
 
-                    nextNode.Flag = 4;
+                    nextNode.Flag = 3;
                     currentNode = nextNode;
 
                     log.Append(currentNode.Id + " ");
