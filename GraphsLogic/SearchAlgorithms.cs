@@ -52,7 +52,7 @@ namespace GraphsLogic
                     }
 
                     node.Flag = 2;
-                    yield return "Vertice " + node.Id + " end spreading";
+                    yield return "Vertice " + node.Id + " end of spreading" + "\nResult: " + allPassedNodes.ToString();
                 }
 
                 StringBuilder log = new StringBuilder("Vertice ");
@@ -61,13 +61,13 @@ namespace GraphsLogic
                     if (activatedNodesForLog[i].Length > 0)
                         log.Append(passedNodesForLog[i] + " spreaded to " + activatedNodesForLog[i].Remove(activatedNodesForLog[i].Length - 1, 1) + "; ");
                     else
-                        log.Append(passedNodesForLog[i] + " end of spreading; ");
+                        log.Append(passedNodesForLog[i] + " finished spreading; ");
                 }
                 allPassedNodes.Append("| ");
 
-                yield return log.ToString().Substring(0, log.Length - 2);
+                yield return log.ToString().Substring(0, log.Length - 2) + "\nResult: " + allPassedNodes.ToString();
             } while (newActiveNodes.Count > 0);
-            yield return "All available vertices passed";
+            yield return "All available vertices passed" + "\nResult: " + allPassedNodes.ToString();
             yield break;
         }
         public static IEnumerable<string> DepthFirst(Graph graph, Node firstNode)
