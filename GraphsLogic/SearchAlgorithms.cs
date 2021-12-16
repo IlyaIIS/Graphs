@@ -13,6 +13,7 @@ namespace GraphsLogic
 
             List<string> passedNodesForLog;
             List<StringBuilder> activatedNodesForLog;
+            StringBuilder allPassedNodes = new StringBuilder();
 
             Stack<Node> activeNodes;
             Stack<Node> newActiveNodes = new Stack<Node>();
@@ -31,6 +32,7 @@ namespace GraphsLogic
                 {
                     Node node = activeNodes.Pop();
 
+                    allPassedNodes.Append(node.Id + " ");
                     passedNodesForLog.Add(node.Id.ToString());
                     activatedNodesForLog.Add(new StringBuilder());
 
@@ -41,20 +43,27 @@ namespace GraphsLogic
                             link.Node.Flag = 1;
                             activatedNodesForLog[^1].Append(link.Node.Id + " ");
                             newActiveNodes.Push(link.Node);
+                            yield return "Vertice " + node.Id + " spread into " + link.Node.Id + "\nResult: " + allPassedNodes.ToString();
+                        }
+                        else
+                        {
+                            yield return "Vertice " + node.Id + " try spread into " + link.Node.Id + "\nResult: " + allPassedNodes.ToString();
                         }
                     }
 
                     node.Flag = 2;
+                    yield return "Vertice " + node.Id + " end spreading";
                 }
 
                 StringBuilder log = new StringBuilder("Vertice ");
                 for (int i = 0; i < passedNodesForLog.Count; i++)
                 {
                     if (activatedNodesForLog[i].Length > 0)
-                        log.Append(passedNodesForLog[i] + " spread to " + activatedNodesForLog[i].Remove(activatedNodesForLog[i].Length - 1, 1) + "; ");
+                        log.Append(passedNodesForLog[i] + " spreaded to " + activatedNodesForLog[i].Remove(activatedNodesForLog[i].Length - 1, 1) + "; ");
                     else
                         log.Append(passedNodesForLog[i] + " end of spreading; ");
                 }
+                allPassedNodes.Append("| ");
 
                 yield return log.ToString().Substring(0, log.Length - 2);
             } while (newActiveNodes.Count > 0);
