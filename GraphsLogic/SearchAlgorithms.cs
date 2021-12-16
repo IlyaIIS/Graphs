@@ -63,6 +63,7 @@ namespace GraphsLogic
         }
         public static IEnumerable<string> DepthFirst(Graph graph, Node firstNode)
         {
+            List<Node> allWay = new List<Node>();
             ResetFlags(graph);
             Stack<Node> nodes = new Stack<Node>();
             firstNode.Flag = 1;
@@ -76,9 +77,10 @@ namespace GraphsLogic
                         {
                             if (link.Node.Flag == 0)
                             {
-                                //yield return log1;
+                                
                                 nodes.Push(node);
                                 nodes.Push(link.Node);
+                                allWay.Add(link.Node);
                                 break;
                             }
                         }
@@ -104,8 +106,12 @@ namespace GraphsLogic
                 string log = "current way:";
                 foreach (var item in nodes)
                     log += item.Id.ToString() + ", ";
+                log += "\nAll way: ";
+                foreach (var item in allWay)
+                    log += item.Id.ToString() + " ";
                 yield return log;
             } while (nodes.Count != 0);
+            yield return "All available vertices passed";
             yield break;
         }
 
@@ -115,6 +121,8 @@ namespace GraphsLogic
             {
                 node.Flag = 0;
                 node.WayLength = int.MaxValue;
+                foreach (Link link in node.Links)
+                    link.FlowValue = link.Value;
             }
         }
         public static IEnumerable<string> GetWay(Graph graph, Node firstNode, Node lastNode)
@@ -220,7 +228,7 @@ namespace GraphsLogic
                 Node previousNode = currentNode;
                 foreach (var link in currentNode.Links) //ищем путь
                 {
-                    if(link.Node.Flag != 2 && link.Value != 0)
+                    if(link.Node.Flag != 2 && link.FlowValue != 0)
                     {
                         currentNode = link.Node;
                         currentNode.Flag = 3;
@@ -239,7 +247,7 @@ namespace GraphsLogic
                     else
                         break;
                 }
-                string log = "way: ";
+                string log = "way:";
                 foreach (var item in way)
                     log += item.Id.ToString() + " ";
                 yield return log;
@@ -253,7 +261,7 @@ namespace GraphsLogic
                         {
                             if (link.Node == way[i + 1])
                             {
-                                weight.Add(link.Value);
+                                weight.Add(link.FlowValue);
                                 allLinks.Add(link);
                             }
                         }
@@ -261,10 +269,13 @@ namespace GraphsLogic
                     int minWeight = weight.Min();
                     flow += minWeight;
                     foreach (var link in allLinks)
-                        link.Value -= minWeight;
+                    {
+                        link.FlowValue -= minWeight;
+                        
+                    }
                     for(var i = 0; i < allLinks.Count; i++)
                     {
-                        if(allLinks[i].Value == 0)
+                        if(allLinks[i].FlowValue == 0)
                         {
                             while (way.Count > i + 1)
                             {
