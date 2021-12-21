@@ -76,6 +76,7 @@ namespace GraphsLogic
             ResetFlags(graph);
             Stack<Node> nodes = new Stack<Node>();
             firstNode.Flag = 1;
+            allWay.Add(firstNode);
             do
             {
                 foreach (var node in graph.Nodes)
@@ -131,7 +132,10 @@ namespace GraphsLogic
                 node.Flag = 0;
                 node.WayLength = int.MaxValue;
                 foreach (Link link in node.Links)
+                {
                     link.FlowValue = link.Value;
+                    link.Flag = true;
+                }
             }
         }
         public static IEnumerable<string> GetWay(Graph graph, Node firstNode, Node lastNode)
@@ -229,9 +233,11 @@ namespace GraphsLogic
         {
             int flow = 0;
             List<Node> way = new List<Node>();
+            List<Node> allWay = new List<Node>();
             firstNode.Flag = 1;
             Node currentNode = firstNode;
             way.Add(currentNode);
+            allWay.Add(currentNode);
             while (true)
             {
                 Node previousNode = currentNode;
@@ -242,6 +248,7 @@ namespace GraphsLogic
                         currentNode = link.Node;
                         currentNode.Flag = 3;
                         way.Add(currentNode);
+                        allWay.Add(currentNode);
                         break;
                     }
                 }
@@ -256,10 +263,13 @@ namespace GraphsLogic
                     else
                         break;
                 }
-                string log = "way:";
+                string log = "\nCurrent way:";
+                string allWayString = "\nWay:";
                 foreach (var item in way)
                     log += item.Id.ToString() + " ";
-                yield return log;
+                foreach (var item in allWay)
+                    allWayString += item.Id.ToString() + " ";
+                yield return "\nMax flow: " + flow + log + allWayString;
                 if(currentNode == lastNode) //вычитаем поток
                 {
                     List<int> weight = new List<int>();
@@ -286,6 +296,7 @@ namespace GraphsLogic
                     {
                         if(allLinks[i].FlowValue == 0)
                         {
+                            allLinks[i].Flag = false;
                             while (way.Count > i + 1)
                             {
                                 if (way[^1].Flag == 3)
@@ -295,7 +306,7 @@ namespace GraphsLogic
                         }
                     }
                     currentNode = way[^1];
-                    yield return "Max flow: " + flow.ToString();
+                    //yield return "Max flow: " + flow.ToString();
                 }
             }
             yield break;

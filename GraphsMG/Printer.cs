@@ -28,6 +28,7 @@ namespace GraphsMG
             DrawNodes(graph);
             DrawArrows(graph);
             DrawEdgesValues(graph);
+            DrawFlowValue(graph);
         }
 
         static void DrawNodes(Graph graph)
@@ -62,7 +63,7 @@ namespace GraphsMG
 
                     SpriteBatch.Draw(LineSp,
                                     new Vector2(node.Position.X, node.Position.Y), null,
-                                    node.Color, line.Angle,
+                                    line.Color, line.Angle,
                                     new Vector2(0, 0),
                                     new Vector2(line.Length, 1),
                                     SpriteEffects.None, 0);
@@ -77,7 +78,7 @@ namespace GraphsMG
                 {
                     SpriteBatch.Draw(ArrowSp,
                                     new Vector2(node.Position.X + (float)Math.Cos(line.Angle) * line.Length, node.Position.Y + (float)Math.Sin(line.Angle) * line.Length), null,
-                                    node.Color, line.Angle,
+                                    line.Color, line.Angle,
                                     new Vector2(0, 15.5f),
                                     new Vector2(6f / ArrowSp.Width, 6f / ArrowSp.Height),
                                     SpriteEffects.None, 0);
@@ -92,9 +93,12 @@ namespace GraphsMG
                 {
                     foreach (Line line in node.Lines)
                     {
-                        float x = node.Position.X + line.Length * (float)Math.Cos(line.Angle);
-                        float y = node.Position.Y + line.Length * (float)Math.Sin(line.Angle);
-                        SpriteBatch.DrawString(EdgeFont, line.Value.ToString(), new Vector2(x, y), Color.Black);
+                        float x = node.Position.X + line.Length * (float)Math.Cos(line.Angle) * 0.7f;
+                        float y = node.Position.Y + line.Length * (float)Math.Sin(line.Angle) * 0.7f;
+                        string value = line.Value.ToString();
+                        if(Menu.Buttons[ButtonType.GettingMaxFlow].IsActive)
+                            value += " / " + line.FlowValue.ToString();
+                        SpriteBatch.DrawString(EdgeFont, value, new Vector2(x, y), Color.Black);
                     }
                 }
             }
@@ -135,6 +139,17 @@ namespace GraphsMG
             {
                 Button button = Menu.Buttons[ButtonType.Void];
                 SpriteBatch.DrawString(Font, Menu.Value.ToString(), new Vector2(button.Position.X + button.Size.X/2 - 5*Menu.Value.ToString().Length, button.Position.Y + button.Size.Y / 4), Color.Black);
+            }
+        }
+
+        static public void DrawFlowValue(Graph graph)
+        {
+            foreach (var node in graph.Nodes)
+            {
+                foreach (var line in node.Lines)
+                {
+                    line.UpdateFlowValue();
+                }
             }
         }
     }
